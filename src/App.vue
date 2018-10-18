@@ -1,22 +1,37 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
-    <h1>{{ msg }}</h1>
-    <h2>Essential Links</h2>
-    <ul>
-      <li><a href="https://vuejs.org" target="_blank">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank">Forum</a></li>
-      <li><a href="https://chat.vuejs.org" target="_blank">Community Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank">Twitter</a></li>
-    </ul>
-    <h2>Ecosystem</h2>
-    <ul>
-      <li><a href="http://router.vuejs.org/" target="_blank">vue-router</a></li>
-      <li><a href="http://vuex.vuejs.org/" target="_blank">vuex</a></li>
-      <li><a href="http://vue-loader.vuejs.org/" target="_blank">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank">awesome-vue</a></li>
-    </ul>
+      <header>
+        <div class="container">
+
+          <!-- header -->
+        </div>
+      </header>
+      <main class="container">
+        <aside class="aside col-md-2">
+          <div class="">
+            <app-category-list>
+
+            </app-category-list>
+            <span class="section_name">
+              more
+            </span>
+          </div>
+        </aside>
+        <div class="content col-md-10" >
+          <div class="container">
+            <span class="section_name">
+              DASHBOARDS
+            </span>
+          </div>
+        </div>
+      </main>
+      <footer>
+        <div class="container">
+          <!-- footer -->
+        </div>
+      </footer>
   </div>
+  <!-- https://bootstrap-themes.github.io/dashboard/?ver=2 -->
 </template>
 
 <script>
@@ -31,30 +46,55 @@ export default {
 </script>
 
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+@media (min-width: 1200px){
+  .container{
+    max-width: 1400px;
+  }
 }
+  a:hover{
+    text-decoration: none;
+  }
+  #app,html,body{
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: "Roboto",sans-serif;
+    /* font-size: 14px; */
+    /* background-color: #363e49; */
+  }
+  #app{
+    display: -webkit-flex;
+    display: -ms-flex;
+    display: flex;
+    flex-direction: column;
+  }
+  main{
+    flex: 1 0 auto;
+    /* border: solid green ; */
+    display: -webkit-flex;
+    display: -ms-flex;
+    display: flex;
+    flex-wrap: wrap;
+  }
+  footer,header{
+    flex: 0 0 auto;
+    height: 50px;
+  }
+  li{
+    list-style: none;
+  }
+  .content{
+    /* border: solid #333; */
+    height: 55px;
+  }
 
-h1, h2 {
-  font-weight: normal;
-}
-
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-
-a {
-  color: #42b983;
-}
+  .aside {
+    /* border: solid red; */
+  }
+  span.section_name{
+    text-transform: uppercase;
+    color: #51586a;
+    font-size: 12px;
+  }
 </style>
