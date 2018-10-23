@@ -18,11 +18,9 @@
           </div>
         </aside>
         <div class="content col-md-10" >
-          <div class="container">
-            <span class="section_name">
-              DASHBOARDS
-            </span>
-          </div>
+            <app-contents>
+              
+            </app-contents>
         </div>
       </main>
       <footer>
