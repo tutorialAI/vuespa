@@ -1,7 +1,7 @@
 <template lang="html">
   <div class="category">
     <span class="section_name">category list</span>
-    <li><a href="#" class="active">елемент-1</a></li>
+    <li><a href="#" class="active">Компьютеры</a></li>
     <li><a href="#">елемент-2</a></li>
     <li><a href="#">елемент-3</a></li>
     <li><a href="#">елемент-4</a></li>

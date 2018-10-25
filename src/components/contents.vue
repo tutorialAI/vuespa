@@ -4,20 +4,21 @@
       DASHBOARDS
     </span>
     <div class="fm col-sm-8">
-          <ul class="">
-            <li class="rv b agz">
+            <div class="border-top">
               <div class="input-group">
-                <input type="text" class="form-control" placeholder="Message">
+                <input type="text" class="form-control " placeholder="Message">
                 <div class="bpt">
                   <button type="button" class="cg ns yf">
-                    <span class="h bao"></span>
+                    <span class="h bao">go</span>
                   </button>
                 </div>
               </div>
-            </li>
-            <li class="rv b agz">
-              <img class="bos vb yb aff rounded-circle" src="src/assets/img/avatar/avatar-dhg.png">
-              <div class="rw">
+            </div>
+            <div class="col-sm-12 border-bottom clear sf">
+              <div class="col-sm-2">
+                <img class="rounded-circle" src="src/assets/img/avatar/avatar-dhg.png">
+              </div>
+              <div class="col-sm-10">
                 <div class="bpb">
                   <small class="acx axc">4 min</small>
                   <h6>Dave Gamache</h6>
@@ -25,70 +26,8 @@
                 <p>
                   Aenean lacinia bibendum nulla sed consectetur. Vestibulum id ligula porta felis euismod semper. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
                 </p>
-                <div class="boy" data-grid="images"><div style="display: inline-block; margin-bottom: 10px; margin-right: 10px; vertical-align: bottom;">
-                    <img data-action="zoom" data-width="1050" data-height="700" src="src/assets/img/unsplash_1.jpg" style="width: 293px; height: 196px;" class="">
-                  </div><div style="display: inline-block; margin-bottom: 10px; margin-right: 0px; vertical-align: bottom;">
-                    <img data-action="zoom" data-width="640" data-height="640" src="src/assets/img/instagram_1.jpg" style="width: 196px; height: 196px;" class="">
-                  </div><div style="display: inline-block; margin-bottom: 10px; margin-right: 10px; vertical-align: bottom;">
-                    <img data-action="zoom" data-width="640" data-height="640" src="src/assets/img/instagram_13.jpg" style="width: 195px; height: 196px;" class="">
-                  </div><div style="display: inline-block; margin-bottom: 10px; margin-right: 0px; vertical-align: bottom;">
-                    <img data-action="zoom" data-width="1048" data-height="700" src="src/assets/img/unsplash_2.jpg" style="width: 294px; height: 196px;" class="">
-                  </div></div>
-                <ul class="bow afa">
-                  <li class="rv afh">
-                    <img class="bos vb yb aff" src="src/assets/img/avatar/avatar-fat.jpg">
-                    <div class="rw">
-                      <strong>Jacon Thornton: </strong>
-                      Donec id elit non mi porta gravida at eget metus. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Donec ullamcorper nulla non metus auctor fringilla. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Sed posuere consectetur est at lobortis.
-                    </div>
-                  </li>
-                  <li class="rv">
-                    <img class="bos vb yb aff" src="src/assets/img/avatar/avatar-mdo.png">
-                    <div class="rw">
-                      <strong>Mark Otto: </strong>
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.
-                    </div>
-                  </li>
-                </ul>
               </div>
-            </li>
-            <li class="rv b agz">
-              <img class="bos vb yb aff" src="src/assets/img/avatar/avatar-fat.jpg">
-              <div class="rw">
-                <div class="bpd">
-                  <div class="bpb">
-                    <small class="acx axc">12 min</small>
-                    <h6>Jacob Thornton</h6>
-                  </div>
-                  <p>
-                    Donec id elit non mi porta gravida at eget metus. Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                  </p>
-                </div>
-              </div>
-            </li>
-            <li class="rv b agz">
-              <img class="bos vb yb aff" src="src/assets/img/avatar/avatar-mdo.png">
-              <div class="rw">
-                <div class="bpb">
-                  <small class="acx axc">34 min</small>
-                  <h6>Mark Otto</h6>
-                </div>
-                <p>
-                  Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
-                </p>
-                <div class="boy" data-grid="images"><img style="display: inline-block; width: 500px; height: 484px; margin-bottom: 10px; margin-right: 0px; vertical-align: bottom;" data-width="640" data-height="640" data-action="zoom" src="src/assets/img/instagram_3.jpg" class=""></div>
-                <ul class="bow">
-                  <li class="rv">
-                    <img class="bos vb yb aff" src="src/assets/img/avatar/avatar-dhg.png">
-                    <div class="rw">
-                      <strong>Dave Gamache: </strong>
-                      Donec id elit non mi porta gravida at eget metus. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Donec ullamcorper nulla non metus auctor fringilla. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Sed posuere consectetur est at lobortis.
-                    </div>
-                  </li>
-                </ul>
-              </div>
-            </li>
-          </ul>
+            </div>
         </div>
   </div>
 </template>
@@ -99,6 +38,21 @@ export default {
 }
 </script>
 
-<style lang="css">
-
+<style lang="css" scoped>
+  .sf{
+    display: -webkit-flex;
+    display: -ms-flex;
+    display: flex;
+    
+  }
+  .border-top{
+    border: solid 1px #aeaeae;
+    padding: 25px;
+    border-radius: 5px 5px 0 0;
+  }
+  .border-bottom{
+    border: solid 1px #aeaeae;
+    padding: 25px;
+    border-radius: 0 0 5px 5px;
+  }
 </style>

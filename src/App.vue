@@ -19,7 +19,7 @@
         </aside>
         <div class="content col-md-10" >
             <app-contents>
-              
+
             </app-contents>
         </div>
       </main>
@@ -44,6 +44,9 @@ export default {
 </script>
 
 <style>
+input{
+  outline: none;
+}
 @media (min-width: 1200px){
   .container{
     max-width: 1400px;
@@ -81,6 +84,10 @@ export default {
   }
   li{
     list-style: none;
+  }
+  img{
+    max-width: 100%;
+    max-height: 100%;
   }
   .content{
     /* border: solid #333; */
