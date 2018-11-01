@@ -4,6 +4,9 @@
         <div class="container">
 
           <!-- header -->
+          <button class="btn btn-info">
+            Добавить пост
+          </button>
         </div>
       </header>
       <main class="container">
@@ -52,6 +55,9 @@ input{
     max-width: 1400px;
   }
 }
+  .row{
+    padding: 0;
+  }
   a:hover{
     text-decoration: none;
   }
@@ -101,5 +107,13 @@ input{
     text-transform: uppercase;
     color: #51586a;
     font-size: 12px;
+  }
+  .main_bg{
+    background: #1997c6; /* Old browsers */
+    background: -moz-linear-gradient(left, #1997c6 0%, #7db9e8 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(left, #1997c6 0%,#7db9e8 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to right, #1997c6 0%,#7db9e8 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1997c6', endColorstr='#7db9e8',GradientType=1 ); /* IE6-9 */
+    color: #fff;
   }
 </style>
