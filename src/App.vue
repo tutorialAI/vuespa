@@ -21,6 +21,7 @@
           </div>
         </aside>
         <div class="content col-md-10" >
+
             <app-contents>
 
             </app-contents>
@@ -39,9 +40,7 @@
 export default {
   name: 'app',
   data () {
-    return {
-      msg: 'Welcome to Your Vue.js App'
-    }
+    return '';
   }
 }
 </script>
@@ -115,5 +114,8 @@ input{
     background: linear-gradient(to right, #1997c6 0%,#7db9e8 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1997c6', endColorstr='#7db9e8',GradientType=1 ); /* IE6-9 */
     color: #fff;
+  }
+  .padding_rest{
+    padding: 0;
   }
 </style>
