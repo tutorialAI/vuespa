@@ -29,11 +29,11 @@
             <div class="row">
               <div class="col-sm-6">
                 <label>Дата начала</label>
-                <input type="date" v-model="message">
+                <input type="date" v-model="startDate">
               </div>
               <div class="col-sm-6">
-              <label class="">Дата начала</label>
-                <input type="date" v-model="">
+              <label class="">Дата Завершения</label>
+                <input type="date" v-model="lastDate">
               </div>
             </div>
             <small class="form-text text-muted">We'll never share your email with anyone else.</small>
@@ -52,7 +52,7 @@
                 <label for="">
                   Цвет:
                 </label>
-                <select >
+                <select v-model="select_color">
                   <option value="yellow" selected>Желтый</option>
                   <option value="blue">Синий</option>
                   <option value="red">Красный</option>
@@ -64,10 +64,10 @@
         </div>
       </div>
       <div class="col-sm-12 row task_list" v-for="task in tasks">
-          <div class="border-bottom task_info" style="width: 100%;">
+          <div class="border-bottom task_info" :style="priority">
             <p class="col-sm-10">{{task.name}}</p>
-            <span class="col-sm-2">{{task.duration}}</span>
-            <smal class="text-muted col-sm-12" style="font-size: 12px">Дата начала: 13.08.2014</smal>
+            <span class="col-sm-2"></span>
+            <smal class="text-muted col-sm-12" style="font-size: 12px">Дата начала: {{task.start}} / Дата завершения: {{ task.end }} / Длительность: {{task.duration}}</smal>
           </div>
             <!-- <p>task_id {{task.task_id}}</p> -->
 
@@ -98,28 +98,41 @@
 export default {
   data: function() {
     return {
+      startDate: '',
+      lastDate: '',
       name: '',
+      select_color: '',
       task_id: 0,
-      date: 0,
       status: false,
       complate: 0,
-      task_date: '',
       tasks: []
     }
   },
   computed:{
-    getDate: function(){
-      this.date = new Date();
-      return this.date.getHourse();
+    duration: function(){
+      let duration = (new Date(this.lastDate).getTime() - new Date(this.startDate).getTime())/1000/60/60/24;
+      console.info(duration);
+      if(duration == 1){
+        return duration + ' день'
+      }
+      else if(duration > 1 && duration < 5){
+        return duration + ' дня';
+      }
+      else{
+        return duration + ' дней'
+      }
+    },
+    priority: function(){
+      console.log(this.select_color);
+      return' border-left: solid 15px #cad525'
     }
   },
   methods:{
     addTask: function(e){
+      let task_start = this.startDate;
+      let task_end = this.lastDate;
       this.task_id += 1;
-      this.task_date =  new Date();
-      // this.tasks[0].name =  "convertin";
-      // console.log(this.tasks);
-      this.tasks.push({task_id: this.task_id,name: this.name,status: this.status,complate: this.complate,task_date: this.task_date})
+      this.tasks.push({task_id: this.task_id,name: this.name,status: this.status,complate: this.complate,task_date: this.task_date,duration: this.duration, start: task_start, end: task_end})
     }
   }
 }
@@ -173,6 +186,6 @@ export default {
     display: -ms-flex;
     display: flex;
     flex-wrap: wrap;
-    border-left: solid 15px #cad525;
+    width: 100%;
   }
 </style>
