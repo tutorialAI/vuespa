@@ -52,8 +52,8 @@
                 <label for="">
                   Цвет:
                 </label>
-                <select v-model="select_color">
-                  <option value="yellow" selected>Желтый</option>
+                <select v-model="selected">
+                  <option value="yellow">Желтый</option>
                   <option value="blue">Синий</option>
                   <option value="red">Красный</option>
                   <option value="green">Зеленый</option>
@@ -64,10 +64,10 @@
         </div>
       </div>
       <div class="col-sm-12 row task_list" v-for="task in tasks">
-          <div class="border-bottom task_info" :style="priority">
+          <div class="border-bottom task_info" :style="task.priority">
             <p class="col-sm-10">{{task.name}}</p>
             <span class="col-sm-2"></span>
-            <smal class="text-muted col-sm-12" style="font-size: 12px">Дата начала: {{task.start}} / Дата завершения: {{ task.end }} / Длительность: {{task.duration}}</smal>
+            <small class="text-muted col-sm-12" style="font-size: 12px">Дата начала: {{task.start}} / Дата завершения: {{ task.end }} {{task.duration}}</small>
           </div>
             <!-- <p>task_id {{task.task_id}}</p> -->
 
@@ -98,10 +98,10 @@
 export default {
   data: function() {
     return {
-      startDate: '',
-      lastDate: '',
+      startDate: 'Не назначена',
+      lastDate: 'Не назначена',
       name: '',
-      select_color: '',
+      selected: 'yellow',
       task_id: 0,
       status: false,
       complate: 0,
@@ -110,21 +110,38 @@ export default {
   },
   computed:{
     duration: function(){
-      let duration = (new Date(this.lastDate).getTime() - new Date(this.startDate).getTime())/1000/60/60/24;
-      console.info(duration);
-      if(duration == 1){
-        return duration + ' день'
-      }
-      else if(duration > 1 && duration < 5){
-        return duration + ' дня';
-      }
-      else{
-        return duration + ' дней'
+      if(!(typeof this.startDate == 'string' || typeof this.lastDate == 'string')){
+        let duration = (new Date(this.lastDate).getTime() - new Date(this.startDate).getTime())/1000/60/60/24;
+        console.info(duration);
+        if(duration == 1){
+          return '/ Длительность: '+ duration + ' день'
+        }
+        else if(duration > 1 && duration < 5){
+          return '/ Длительность: ' + duration + ' дня';
+        }
+        else{
+          return '/ Длительность: ' + duration + ' дней'
+        }
       }
     },
-    priority: function(){
-      console.log(this.select_color);
-      return' border-left: solid 15px #cad525'
+    color: function(){
+      switch (this.selected) {
+        case 'yellow':
+            return' border-left: solid 15px #cad525';
+          break;
+        case 'red':
+            return' border-left: solid 15px tomato';
+          break;
+        case 'green':
+            return' border-left: solid 15px #8ee691';
+          break;
+        case 'blue':
+            return' border-left: solid 15px #4da8d7';
+          break;
+        default:
+          return ' border-left: solid 15px #aeaeeae';
+      }
+
     }
   },
   methods:{
@@ -132,7 +149,7 @@ export default {
       let task_start = this.startDate;
       let task_end = this.lastDate;
       this.task_id += 1;
-      this.tasks.push({task_id: this.task_id,name: this.name,status: this.status,complate: this.complate,task_date: this.task_date,duration: this.duration, start: task_start, end: task_end})
+      this.tasks.push({task_id: this.task_id,name: this.name,status: this.status,complate: this.complate,task_date: this.task_date,duration: this.duration, start: task_start, end: task_end, priority: this.color})
     }
   }
 }
