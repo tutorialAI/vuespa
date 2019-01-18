@@ -6,7 +6,7 @@
     <div class="fm col-sm-8">
       <div class="border-top col-sm-12 row">
         <div class="input-group col-sm-10">
-          <input type="text" class="form-control" v-model="name" placeholder="Добавьте что-нибдь в список своих дел...">
+          <input type="text" class="form-control" ref="test" v-model="name" placeholder="Добавьте что-нибдь в список своих дел...">
           <div class="bpt">
           </div>
         </div>
@@ -30,6 +30,7 @@
               <div class="col-sm-6">
                 <label>Дата начала</label>
                 <input type="date" v-model="startDate">
+                  <span><svg viewBox="0 0 8 8" fill="#000"><use xlink:href="#calendar"></use></svg></span>
               </div>
               <div class="col-sm-6">
               <label class="">Дата Завершения</label>
@@ -141,15 +142,26 @@ export default {
         default:
           return ' border-left: solid 15px #aeaeeae';
       }
-
     }
   },
   methods:{
     addTask: function(e){
       let task_start = this.startDate;
       let task_end = this.lastDate;
+      let _this = this.$refs.test;
+      function warningSolid(){
+        _this.style.border = '';
+        _this.style.background = 'transparent';
+      }
+      if(this.name == ''){
+        _this.style.border = 'solid #faaea0 2px';
+        _this.style.background = '#faaea0';
+        setTimeout(warningSolid,500);
+        return false;
+      }
       this.task_id += 1;
-      this.tasks.push({task_id: this.task_id,name: this.name,status: this.status,complate: this.complate,task_date: this.task_date,duration: this.duration, start: task_start, end: task_end, priority: this.color})
+      this.tasks.push({task_id: this.task_id,name: this.name,status: this.status,complate: this.complate,task_date: this.task_date,duration: this.duration, start: task_start, end: task_end, priority: this.color});
+      this.name = '';
     }
   }
 }

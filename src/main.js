@@ -1,5 +1,7 @@
 import Vue from 'vue'
 import bootstrap from 'bootstrap-css-only'
+import { FontAwesomeIcon } from '@fortawesome/fontawesome-common-types'
+
 import App from './App.vue'
 import AppCategoryList from './components/categoryList.vue'
 import AppContents from './components/contents.vue'
