@@ -30,7 +30,6 @@
               <div class="col-sm-6">
                 <label>Дата начала</label>
                 <input type="date" v-model="startDate">
-                  <span><svg viewBox="0 0 8 8" fill="#000"><use xlink:href="#calendar"></use></svg></span>
               </div>
               <div class="col-sm-6">
               <label class="">Дата Завершения</label>

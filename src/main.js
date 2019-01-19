@@ -1,6 +1,20 @@
 import Vue from 'vue'
 import bootstrap from 'bootstrap-css-only'
-import { FontAwesomeIcon } from '@fortawesome/fontawesome-common-types'
+// import fontawesome from '@fortawesome/fontawesome-common-types'
+import VueFire from 'vuefire'
+import firebase from 'firebase/app'
+import 'firebase/firestore'
+
+let config = {
+  apiKey: "AIzaSyB9Oh4l0to1MNOV1I8ilu8DkxLibple0gk",
+  authDomain: "day-task.firebaseapp.com",
+  databaseURL: "https://day-task.firebaseio.com",
+  projectId: "day-task",
+  storageBucket: "day-task.appspot.com",
+  messagingSenderId: "575426806335"
+};
+firebase.initializeApp(config);
+console.log(firebase.firestore().collection('fjtu9yQ8qrwiOwelFX7c'));
 
 import App from './App.vue'
 import AppCategoryList from './components/categoryList.vue'

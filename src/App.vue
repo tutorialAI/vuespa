@@ -4,9 +4,14 @@
         <div class="container">
 
           <!-- header -->
-          <button class="btn btn-info">
+          <button class="btn btn-info" @click="newMethod()">
             Добавить пост
           </button>
+          <ul>
+            <li v-for="location in locations">
+              {{location.name}}
+            </li>
+          </ul>
         </div>
       </header>
       <main class="container">
@@ -37,12 +42,25 @@
 </template>
 
 <script>
+import firebase from 'firebase';
 export default {
   name: 'app',
   data () {
-    return '';
+    return{
+      locations: []
+    }
+  },
+  firestore(){
+    return {
+      locations: firebase.collection('locations').orderBy('createdAt')
+    }
+  },
+  methods: {
+    newMethod() {
+      console.log(locations);
+    }
   }
-}
+};
 </script>
 
 <style>
