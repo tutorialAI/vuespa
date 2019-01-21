@@ -42,7 +42,6 @@
 </template>
 
 <script>
-import firebase from 'firebase';
 export default {
   name: 'app',
   data () {
@@ -50,14 +49,14 @@ export default {
       locations: []
     }
   },
-  firestore(){
-    return {
-      locations: firebase.collection('locations').orderBy('createdAt')
-    }
-  },
+  // firestore(){
+  //   return {
+  //     locations: firebase.database()
+  //   }
+  // },
   methods: {
     newMethod() {
-      console.log(locations);
+      console.log('good')
     }
   }
 };

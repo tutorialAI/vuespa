@@ -95,6 +95,8 @@
 </template>
 
 <script>
+import firebase from 'firebase';
+
 export default {
   data: function() {
     return {
@@ -160,6 +162,7 @@ export default {
       }
       this.task_id += 1;
       this.tasks.push({task_id: this.task_id,name: this.name,status: this.status,complate: this.complate,task_date: this.task_date,duration: this.duration, start: task_start, end: task_end, priority: this.color});
+      firebase.database().ref('task name').set(this.name);
       this.name = '';
     }
   }
