@@ -29,11 +29,11 @@
             <div class="row">
               <div class="col-sm-6">
                 <label>Дата начала</label>
-                <input type="date" v-model="startDate">
+                <!-- <input type="date" v-model="startDate"> -->
               </div>
               <div class="col-sm-6">
               <label class="">Дата Завершения</label>
-                <input type="date" v-model="lastDate">
+                <!-- <input type="date" v-model="lastDate"> -->
               </div>
             </div>
             <small class="form-text text-muted">We'll never share your email with anyone else.</small>
@@ -107,6 +107,7 @@ export default {
       task_id: 0,
       status: false,
       complate: 0,
+      task_date: '12.04.2019',
       tasks: []
     }
   },
@@ -114,7 +115,6 @@ export default {
     duration: function(){
       if(!(typeof this.startDate == 'string' || typeof this.lastDate == 'string')){
         let duration = (new Date(this.lastDate).getTime() - new Date(this.startDate).getTime())/1000/60/60/24;
-        console.info(duration);
         if(duration == 1){
           return '/ Длительность: '+ duration + ' день'
         }
@@ -124,6 +124,8 @@ export default {
         else{
           return '/ Длительность: ' + duration + ' дней'
         }
+      }else{
+        return duration = 15;
       }
     },
     color: function(){
@@ -161,9 +163,12 @@ export default {
         return false;
       }
       this.task_id += 1;
-      this.tasks.push({task_id: this.task_id,name: this.name,status: this.status,complate: this.complate,task_date: this.task_date,duration: this.duration, start: task_start, end: task_end, priority: this.color});
-      firebase.database().ref('task name').set(this.name);
-      this.name = '';
+      this.tasks.push({task_id: this.task_id,name: this.name,status: this.status,complate: this.complate,task_date: this.task_date, start: task_start, end: task_end, priority: this.color});
+
+      for(let value in this.tasks[0]){
+        firebase.database().ref(this.task_id+'/'+value).set(this.tasks[0][value]);
+      }
+      // this.tasks = array();
     }
   }
 }
