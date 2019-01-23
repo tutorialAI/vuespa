@@ -1,5 +1,6 @@
 <template lang="html">
   <div class="container">
+    <button class="btn btn-prymary" @click="showMe()">Show all</button>
     <span class="section_name">
       Заголовок задачи
     </span>
@@ -29,11 +30,11 @@
             <div class="row">
               <div class="col-sm-6">
                 <label>Дата начала</label>
-                <!-- <input type="date" v-model="startDate"> -->
+                <input type="date" >
               </div>
               <div class="col-sm-6">
               <label class="">Дата Завершения</label>
-                <!-- <input type="date" v-model="lastDate"> -->
+                <input type="date" >
               </div>
             </div>
             <small class="form-text text-muted">We'll never share your email with anyone else.</small>
@@ -63,7 +64,7 @@
           </div>
         </div>
       </div>
-      <div class="col-sm-12 row task_list" v-for="task in tasks">
+      <div class="col-sm-12 row task_list" v-for="task in dbTasks">
           <div class="border-bottom task_info" :style="task.priority">
             <p class="col-sm-10">{{task.name}}</p>
             <span class="col-sm-2"></span>
@@ -108,7 +109,8 @@ export default {
       status: false,
       complate: 0,
       task_date: '12.04.2019',
-      tasks: []
+      tasks: [],
+      dbTasks: []
     }
   },
   computed:{
@@ -145,6 +147,12 @@ export default {
         default:
           return ' border-left: solid 15px #aeaeeae';
       }
+    },
+    showTasksFromDataBase: function() {
+      let test = firebase.database().ref('1/');
+      test.on('value', function(snapshot) {
+        this.dbTasks.push(snapshot.val());
+      });
     }
   },
   methods:{
@@ -162,11 +170,13 @@ export default {
         setTimeout(warningSolid,500);
         return false;
       }
+      // firebase.database().ref('day-task').delete();
       this.task_id += 1;
       this.tasks.push({task_id: this.task_id,name: this.name,status: this.status,complate: this.complate,task_date: this.task_date, start: task_start, end: task_end, priority: this.color});
 
       for(let value in this.tasks[0]){
         firebase.database().ref(this.task_id+'/'+value).set(this.tasks[0][value]);
+        console.log(firebase.database().ref().child('1').key);
       }
       // this.tasks = array();
     }
