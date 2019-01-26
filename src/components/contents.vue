@@ -64,7 +64,7 @@
           </div>
         </div>
       </div>
-      <div class="col-sm-12 row task_list" v-for="task in dbTasks">
+      <div class="col-sm-12 row task_list" v-for="task in tasks">
           <div class="border-bottom task_info" :style="task.priority">
             <p class="col-sm-10">{{task.name}}</p>
             <span class="col-sm-2"></span>
@@ -97,6 +97,20 @@
 
 <script>
 import firebase from 'firebase';
+// import store from './store/store'
+
+
+var config = {
+  apiKey: "AIzaSyB9Oh4l0to1MNOV1I8ilu8DkxLibple0gk",
+  authDomain: "day-task.firebaseapp.com",
+  databaseURL: "https://day-task.firebaseio.com",
+  projectId: "day-task",
+  storageBucket: "day-task.appspot.com",
+  messagingSenderId: "575426806335"
+};
+let app = firebase.initializeApp(config);
+let db = app.database()
+let booksRef = db.ref('day-task');
 
 export default {
   data: function() {
@@ -109,8 +123,7 @@ export default {
       status: false,
       complate: 0,
       task_date: '12.04.2019',
-      tasks: [],
-      dbTasks: []
+      tasks: []
     }
   },
   computed:{
@@ -147,40 +160,49 @@ export default {
         default:
           return ' border-left: solid 15px #aeaeeae';
       }
-    },
-    showTasksFromDataBase: function() {
-      let test = firebase.database().ref('1/');
-      test.on('value', function(snapshot) {
-        this.dbTasks.push(snapshot.val());
-      });
     }
   },
   methods:{
     addTask: function(e){
-      let task_start = this.startDate;
-      let task_end = this.lastDate;
-      let _this = this.$refs.test;
-      function warningSolid(){
-        _this.style.border = '';
-        _this.style.background = 'transparent';
-      }
-      if(this.name == ''){
-        _this.style.border = 'solid #faaea0 2px';
-        _this.style.background = '#faaea0';
-        setTimeout(warningSolid,500);
-        return false;
-      }
-      // firebase.database().ref('day-task').delete();
-      this.task_id += 1;
-      this.tasks.push({task_id: this.task_id,name: this.name,status: this.status,complate: this.complate,task_date: this.task_date, start: task_start, end: task_end, priority: this.color});
-
-      for(let value in this.tasks[0]){
-        firebase.database().ref(this.task_id+'/'+value).set(this.tasks[0][value]);
-        console.log(firebase.database().ref().child('1').key);
+      // let task_start = this.startDate;
+      // let task_end = this.lastDate;
+      // let _this = this.$refs.test;
+      // function warningSolid(){
+      //   _this.style.border = '';
+      //   _this.style.background = 'transparent';
+      // }
+      // if(this.name == ''){
+      //   _this.style.border = 'solid #faaea0 2px';
+      //   _this.style.background = '#faaea0';
+      //   setTimeout(warningSolid,500);
+      //   return false;
+      // }
+      // // firebase.database().ref('day-task').delete();
+      // this.task_id += 1;
+      // let task_key = firebase.database().ref().push().key;
+      // this.tasks.push({task_id: task_key,name: this.name,status: this.status,complate: this.complate,task_date: this.task_date, start: task_start, end: task_end, priority: this.color});
+      //
+      // for(let value in this.tasks[0]){
+      //   firebase.database().ref(task_key+'/'+value).set(this.tasks[0][value]);
+      //   firebase.database().ref().push().key;
+      //
+      //   let test = firebase.database().ref(task_key+'/'+value);
+      //   test.on('value', function(snapshot) {
+      //     console.log(snapshot.val());
+      //   });
+        // console.log(firebase.database().ref(task_key+'/'+value));
+        this.$store.commit('increment');
+        console.log(this.$store.state.count);
       }
       // this.tasks = array();
-    }
+
   }
+  // ,
+  // created(){
+  //   // this.$store.dispatch('loadTasks',this.tasks)
+  //   this.$store.commit('increment');
+  //   console.log(this.$store.state.count);
+  // }
 }
 </script>
 
