@@ -1,9 +1,10 @@
 <template lang="html">
   <div class="container">
-    <button class="btn btn-prymary" @click="showMe()">Show all</button>
+    <!-- <button class="btn btn-prymary">Show all</button> -->
     <span class="section_name">
       Заголовок задачи
     </span>
+    <button @click="countUp()">Upper</button>
     <div class="fm col-sm-8">
       <div class="border-top col-sm-12 row">
         <div class="input-group col-sm-10">
@@ -96,21 +97,6 @@
 </template>
 
 <script>
-import firebase from 'firebase';
-// import store from './store/store'
-
-
-var config = {
-  apiKey: "AIzaSyB9Oh4l0to1MNOV1I8ilu8DkxLibple0gk",
-  authDomain: "day-task.firebaseapp.com",
-  databaseURL: "https://day-task.firebaseio.com",
-  projectId: "day-task",
-  storageBucket: "day-task.appspot.com",
-  messagingSenderId: "575426806335"
-};
-let app = firebase.initializeApp(config);
-let db = app.database()
-let booksRef = db.ref('day-task');
 
 export default {
   data: function() {
@@ -123,7 +109,8 @@ export default {
       status: false,
       complate: 0,
       task_date: '12.04.2019',
-      tasks: []
+      tasks: [],
+      count: 0
     }
   },
   computed:{
@@ -191,18 +178,15 @@ export default {
       //     console.log(snapshot.val());
       //   });
         // console.log(firebase.database().ref(task_key+'/'+value));
-        this.$store.commit('increment');
-        console.log(this.$store.state.count);
-      }
+      },
       // this.tasks = array();
-
+      countUp(){
+        this.$store.dispatch('loadTasks');
+        this.$store.dispatch('increment');
+        this.tasks = this.$store.state.data;
+        console.log(this.tasks);
+      }
   }
-  // ,
-  // created(){
-  //   // this.$store.dispatch('loadTasks',this.tasks)
-  //   this.$store.commit('increment');
-  //   console.log(this.$store.state.count);
-  // }
 }
 </script>
 

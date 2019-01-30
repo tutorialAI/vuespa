@@ -56,7 +56,7 @@ export default {
   // },
   methods: {
     newMethod() {
-      console.log('good')
+      this.$store.commit('increment');
     }
   }
 };

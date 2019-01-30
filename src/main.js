@@ -7,8 +7,6 @@ import firebase from 'firebase/app'
 import 'firebase/firestore'
 import 'firebase/database'
 
-
-
 import App from './App.vue'
 import AppCategoryList from './components/categoryList.vue'
 import AppContents from './components/contents.vue'
