@@ -180,6 +180,7 @@ export default {
           console.log(snapshot.val());
         });
         // console.log(firebase.database().ref(task_key+'/'+value));
+
       }
     },
       countUp(){
