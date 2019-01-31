@@ -180,9 +180,13 @@ export default {
           console.log(snapshot.val());
         });
         // console.log(firebase.database().ref(task_key+'/'+value));
+<<<<<<< HEAD
 
       }
     },
+=======
+      },
+>>>>>>> 63bffed80407fb89b9dccd7564aea439b5d53ff0
       countUp(){
         this.$store.dispatch('loadTasks');
         this.$store.dispatch('increment');
