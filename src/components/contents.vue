@@ -97,8 +97,10 @@
 </template>
 
 <script>
-
+import 'firebase/database';
+import firebase from 'firebase/app';
 export default {
+
   data: function() {
     return {
       startDate: 'Не назначена',
@@ -151,40 +153,40 @@ export default {
   },
   methods:{
     addTask: function(e){
-      // let task_start = this.startDate;
-      // let task_end = this.lastDate;
-      // let _this = this.$refs.test;
-      // function warningSolid(){
-      //   _this.style.border = '';
-      //   _this.style.background = 'transparent';
-      // }
-      // if(this.name == ''){
-      //   _this.style.border = 'solid #faaea0 2px';
-      //   _this.style.background = '#faaea0';
-      //   setTimeout(warningSolid,500);
-      //   return false;
-      // }
-      // // firebase.database().ref('day-task').delete();
-      // this.task_id += 1;
-      // let task_key = firebase.database().ref().push().key;
-      // this.tasks.push({task_id: task_key,name: this.name,status: this.status,complate: this.complate,task_date: this.task_date, start: task_start, end: task_end, priority: this.color});
-      //
-      // for(let value in this.tasks[0]){
-      //   firebase.database().ref(task_key+'/'+value).set(this.tasks[0][value]);
-      //   firebase.database().ref().push().key;
-      //
-      //   let test = firebase.database().ref(task_key+'/'+value);
-      //   test.on('value', function(snapshot) {
-      //     console.log(snapshot.val());
-      //   });
+      let task_start = this.startDate;
+      let task_end = this.lastDate;
+      let _this = this.$refs.test;
+      function warningSolid(){
+        _this.style.border = '';
+        _this.style.background = 'transparent';
+      }
+      if(this.name == ''){
+        _this.style.border = 'solid #faaea0 2px';
+        _this.style.background = '#faaea0';
+        setTimeout(warningSolid,500);
+        return false;
+      }
+      // firebase.database().ref('day-task').delete();
+      this.task_id += 1;
+      let task_key = firebase.database().ref().push().key;
+      this.tasks.push({task_id: task_key,name: this.name,status: this.status,complate: this.complate,task_date: this.task_date, start: task_start, end: task_end, priority: this.color});
+      console.log(this.tasks[0]);
+      for(let value in this.tasks[0]){
+        firebase.database().ref(task_key+'/'+value).set(this.tasks[0][value]);
+        firebase.database().ref().push().key;
+
+        let test = firebase.database().ref(task_key+'/'+value);
+        test.on('value', function(snapshot) {
+          console.log(snapshot.val());
+        });
         // console.log(firebase.database().ref(task_key+'/'+value));
-      },
-      // this.tasks = array();
+      }
+    },
       countUp(){
         this.$store.dispatch('loadTasks');
         this.$store.dispatch('increment');
-        this.tasks = this.$store.state.data;
-        console.log(this.tasks);
+        this.tasks = this.$store.state.data[0];
+        // console.log(this.$store.state.data[0])
       }
   }
 }

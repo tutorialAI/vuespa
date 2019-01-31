@@ -35,6 +35,7 @@ export default new Vuex.Store({
       }, function (error) {
          console.log("Error: " + error.code);
       });
+      // console.log(baseData);
       context.commit('loadTasks',baseData);
 
     },
@@ -50,5 +51,11 @@ export default new Vuex.Store({
       context.count = payload > context.count ? context.count = payload : context.count;
       context.count++
     }
+  }
+});
+
+new Vue({
+  data:{
+    firebase: db
   }
 });
