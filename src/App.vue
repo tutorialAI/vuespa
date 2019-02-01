@@ -100,7 +100,7 @@ input{
     display: flex;
     flex-wrap: wrap;
   }
-  footer,header{
+  footer,fer{
     flex: 0 0 auto;
     height: 50px;
   }

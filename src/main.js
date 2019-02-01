@@ -20,7 +20,6 @@ Vue.component('AppCategory', AppCategory);
 Vue.component('AppCategory', AppAddPost);
 new Vue({
   store,
-  firebase,
   el: '#app',
   render: h => h(App)
 });

@@ -169,10 +169,9 @@ export default {
       // firebase.database().ref('day-task').delete();
       this.task_id += 1;
       let task_key = firebase.database().ref().push().key;
-      this.tasks.push({task_id: task_key,name: this.name,status: this.status,complate: this.complate,task_date: this.task_date, start: task_start, end: task_end, priority: this.color});
-      console.log(this.tasks[0]);
+      this.tasks.task_key = {task_id: task_key,name: this.name,status: this.status,complate: this.complate,task_date: this.task_date, start: task_start, end: task_end, priority: this.color};
       for(let value in this.tasks[0]){
-        firebase.database().ref(task_key+'/'+value).set(this.tasks[0][value]);
+        firebase.database().ref(task_key+'/'+value).set(this.tasks[value]);
         firebase.database().ref().push().key;
 
         let test = firebase.database().ref(task_key+'/'+value);
@@ -180,19 +179,12 @@ export default {
           console.log(snapshot.val());
         });
         // console.log(firebase.database().ref(task_key+'/'+value));
-<<<<<<< HEAD
-
       }
-    },
-=======
-      },
->>>>>>> 63bffed80407fb89b9dccd7564aea439b5d53ff0
-      countUp(){
-        this.$store.dispatch('loadTasks');
-        this.$store.dispatch('increment');
-        this.tasks = this.$store.state.data[0];
-        // console.log(this.$store.state.data[0])
-      }
+    }
+  },
+  created() {
+    this.$store.dispatch('loadTasks');
+    this.tasks = this.$store.state.data[0];
   }
 }
 </script>
