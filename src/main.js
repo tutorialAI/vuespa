@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import bootstrap from 'bootstrap-css-only'
 import store from './store/store'
-// import fontawesome from '@fortawesome/fontawesome-common-types'
+
 import VueFire from 'vuefire'
 import firebase from 'firebase/app'
 import 'firebase/firestore'

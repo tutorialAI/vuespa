@@ -26,17 +26,31 @@ export default new Vuex.Store({
   //   getProducts: state => state.baseData
   // },
   actions:{
+
+
     loadTasks(context){
-
-      let baseData = [];
-
+      let someArr = [];
       ref.on("value", function(snapshot) {
-         baseData.push(snapshot.val());
+           //
+           let data = snapshot.val();
+           for (let value in snapshot.val()) {
+             let baseData = {
+               name: data[value].name,
+               task_id: data[value].task_id,
+               status: data[value].status,
+               complate: data[value].complate,
+               task_date: data[value].task_date,
+               start: data[value].start,
+               end: data[value].end,
+               priority: data[value].priority
+             };
+             someArr.push(baseData);
+           };
+
       }, function (error) {
          console.log("Error: " + error.code);
       });
-      // console.log(baseData);
-      context.commit('loadTasks',baseData);
+      context.commit('loadTasks',someArr);
 
     },
     increment(context) {

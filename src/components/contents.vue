@@ -4,7 +4,6 @@
     <span class="section_name">
       Заголовок задачи
     </span>
-    <button @click="countUp()">Upper</button>
     <div class="fm col-sm-8">
       <div class="border-top col-sm-12 row">
         <div class="input-group col-sm-10">
@@ -27,20 +26,17 @@
         </div>
         </div>
         <div class="col-sm-12">
-          <div class="border full_options" style="height: 150px;margin-top:15px;">
+          <div class="full_options" style="height: 200px;margin-top:30px;">
             <div class="row">
-              <div class="col-sm-6">
+              <div class="col-sm-4 theme_select">
                 <label>Дата начала</label>
-                <input type="date" >
+                <input ref="startDate" type="date">
               </div>
-              <div class="col-sm-6">
+              <div class="col-sm-4 theme_select">
               <label class="">Дата Завершения</label>
-                <input type="date" >
+                <input ref="lastDate" type="date">
               </div>
-            </div>
-            <small class="form-text text-muted">We'll never share your email with anyone else.</small>
-            <div class="row">
-              <div class="col-sm-6">
+              <div class="col-sm-4 theme_select">
                 <label for="">
                   Приоритет:
                 </label>
@@ -50,7 +46,8 @@
                   <option value="3">Высокий</option>
                 </select>
               </div>
-              <div class="col-sm-6">
+              <small class="form-text text-muted col-sm-12 information_text">We'll never share your email with anyone else.</small>
+              <div class="col-sm-6 theme_select">
                 <label for="">
                   Цвет:
                 </label>
@@ -103,8 +100,8 @@ export default {
 
   data: function() {
     return {
-      startDate: 'Не назначена',
-      lastDate: 'Не назначена',
+      startDate: '',
+      lastDate: '',
       name: '',
       selected: 'yellow',
       task_id: 0,
@@ -153,8 +150,9 @@ export default {
   },
   methods:{
     addTask: function(e){
-      let task_start = this.startDate;
-      let task_end = this.lastDate;
+
+      this.startDate = this.$refs.startDate.value == '' ? 'Не назначена' : this.$refs.startDate.value;
+      this.lastDate =  this.$refs.lastDate.value == '' ? 'Не назначена' : this.$refs.lastDate.value;
       let _this = this.$refs.test;
       function warningSolid(){
         _this.style.border = '';
@@ -165,31 +163,33 @@ export default {
         _this.style.background = '#faaea0';
         setTimeout(warningSolid,500);
         return false;
-      }
+      }else{
       // firebase.database().ref('day-task').delete();
-      this.task_id += 1;
+      this.count ++;
       let task_key = firebase.database().ref().push().key;
-      this.tasks.task_key = {task_id: task_key,name: this.name,status: this.status,complate: this.complate,task_date: this.task_date, start: task_start, end: task_end, priority: this.color};
-      for(let value in this.tasks[0]){
-        firebase.database().ref(task_key+'/'+value).set(this.tasks[value]);
-        firebase.database().ref().push().key;
+      this.tasks.push({task_id: task_key,name: this.name,status: this.status,complate: this.complate,task_date: this.task_date, start: this.startDate, end: this.lastDate, priority: this.color});
 
-        let test = firebase.database().ref(task_key+'/'+value);
-        test.on('value', function(snapshot) {
-          console.log(snapshot.val());
-        });
-        // console.log(firebase.database().ref(task_key+'/'+value));
+
+      for(let value in this.tasks[this.tasks.length-1]){
+        console.log(value+':'+this.tasks[this.tasks.length-1][value]);
+        firebase.database().ref(task_key+'/'+value).set('offset');
+        firebase.database().ref().push().key;
+        }
       }
     }
   },
   created() {
     this.$store.dispatch('loadTasks');
-    this.tasks = this.$store.state.data[0];
+    this.tasks = this.$store.state.data;
   }
 }
 </script>
 
 <style lang="css" scoped>
+  .section_name{
+    margin: 0px 0px 10px;
+    display: block;
+  }
   .sf{
     display: -webkit-flex;
     display: -ms-flex;
@@ -238,5 +238,22 @@ export default {
     display: flex;
     flex-wrap: wrap;
     width: 100%;
+  }
+  .get_time{
+
+  }
+  .theme_select input,.theme_select select{
+    border: 1px solid #ced4da;
+    border-radius: 2px;
+    text-align: center;
+    padding: 10px 0;
+    display: -webkit-flex;
+    display: -ms-flex;
+  }
+  .theme_select select{
+    padding: 12px 10px;
+  }
+  .information_text{
+    margin: 10px 0;
   }
 </style>
