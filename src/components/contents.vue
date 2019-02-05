@@ -107,7 +107,6 @@ export default {
       task_id: 0,
       status: false,
       complate: 0,
-      task_date: '12.04.2019',
       tasks: [],
       count: 0
     }
@@ -126,7 +125,7 @@ export default {
           return '/ Длительность: ' + duration + ' дней'
         }
       }else{
-        return duration = 15;
+        return duration;
       }
     },
     color: function(){
@@ -150,7 +149,8 @@ export default {
   },
   methods:{
     addTask: function(e){
-
+      console.log(this.startDate);
+      this.tasks.length = 0;
       this.startDate = this.$refs.startDate.value == '' ? 'Не назначена' : this.$refs.startDate.value;
       this.lastDate =  this.$refs.lastDate.value == '' ? 'Не назначена' : this.$refs.lastDate.value;
       let _this = this.$refs.test;
@@ -167,18 +167,26 @@ export default {
       // firebase.database().ref('day-task').delete();
       this.count ++;
       let task_key = firebase.database().ref().push().key;
-      this.tasks.push({task_id: task_key,name: this.name,status: this.status,complate: this.complate,task_date: this.task_date, start: this.startDate, end: this.lastDate, priority: this.color});
+      this.tasks.push({task_id: task_key,name: this.name,status: this.status,complate: this.complate,duration: this.duration, start: this.startDate, end: this.lastDate, priority: this.color});
 
 
-      for(let value in this.tasks[this.tasks.length-1]){
-        console.log(value+':'+this.tasks[this.tasks.length-1][value]);
-        firebase.database().ref(task_key+'/'+value).set('offset');
-        firebase.database().ref().push().key;
-        }
+        firebase.database().ref(task_key).set({
+          name: this.name,
+          task_id: task_key,
+          name: this.name,
+          status: this.status,
+          complate: this.complate,
+          duration: this.duration,
+          start: this.startDate,
+          end: this.lastDate,
+          priority: this.color
+        });
+
       }
     }
   },
-  created() {
+  beforeMount() {
+    this.tasks.length = 0;
     this.$store.dispatch('loadTasks');
     this.tasks = this.$store.state.data;
   }
