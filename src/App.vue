@@ -63,14 +63,14 @@ export default {
 </script>
 
 <style>
-input{
-  outline: none;
-}
-@media (min-width: 1200px){
-  .container{
-    max-width: 1400px;
+  input{
+    outline: none;
   }
-}
+  @media (min-width: 1200px){
+    .container{
+      max-width: 1400px;
+    }
+  }
   .row{
     padding: 0;
   }

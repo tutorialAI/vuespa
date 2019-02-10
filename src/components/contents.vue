@@ -38,17 +38,6 @@
               </div>
               <div class="col-sm-4 theme_select">
                 <label for="">
-                  Приоритет:
-                </label>
-                <select >
-                  <option value="2" selected>Средний</option>
-                  <option value="1">Низкий</option>
-                  <option value="3">Высокий</option>
-                </select>
-              </div>
-              <small class="form-text text-muted col-sm-12 information_text">We'll never share your email with anyone else.</small>
-              <div class="col-sm-6 theme_select">
-                <label for="">
                   Цвет:
                 </label>
                 <select v-model="selected">
@@ -58,22 +47,34 @@
                   <option value="green">Зеленый</option>
                 </select>
               </div>
+              <small class="form-text text-muted col-sm-12 information_text">We'll never share your email with anyone else.</small>
+              <div class="col-sm-6 theme_select">
+                <label for="priority">
+                  Приоритет: {{ priority_text }}
+                  <input type="range" id="start" name="priority" min="0" max="10" step="1" value="0" v-on:change="priorityM($event)">
+                </label>
+              </div>
             </div>
           </div>
         </div>
       </div>
       <div class="col-sm-12 row task_list" v-for="task in tasks">
-          <div class="border-bottom task_info" :style="task.priority">
+          <div class="border-bottom task_info" :style="task.color">
             <p class="col-sm-10">{{task.name}}</p>
             <span class="col-sm-2"></span>
-            <small class="text-muted col-sm-12" style="font-size: 12px">Дата начала: {{task.start}} / Дата завершения: {{ task.end }} {{task.duration}}</small>
+            <small class="text-muted col-sm-12" style="font-size: 12px">Дата начала: {{task.start}} / Дата завершения: {{ task.end }} {{ task.duration }}</small>
           </div>
             <!-- <p>task_id {{task.task_id}}</p> -->
 
-            <!-- <p>status {{task.status}}</p>
-            <p>complate {{task.complate}}</p>
-            <p>task_date {{task.task_date}}</p> -->
+            <!-- <p>status {{task.status}};</p>
+            <p>complate {{task.complate}};</p>
+            <p>task_date {{task.duration}};</p> -->
           <hr>
+          <div class="task_options">
+            <a href="#" v-on:click="done()">C<i class="fa fa-check-circle-o" aria-hidden="true"></i></a>
+            <a href="#" v-on:click="remove()">D<i class="fa fa-check-trash-o" aria-hidden="true"></i></a>
+            <a href="#" v-on:click="upTask()">U<i class="fa fa-arrow-circle-o-up" aria-hidden="true"></i></a>
+          </div>
       </div>
       <div class="border-bottom clear sf">
         <div class="col-sm-2">
@@ -108,12 +109,12 @@ export default {
       status: false,
       complate: 0,
       tasks: [],
+      priority: 0,
       count: 0
     }
   },
   computed:{
     duration: function(){
-      if(!(typeof this.startDate == 'string' || typeof this.lastDate == 'string')){
         let duration = (new Date(this.lastDate).getTime() - new Date(this.startDate).getTime())/1000/60/60/24;
         if(duration == 1){
           return '/ Длительность: '+ duration + ' день'
@@ -124,9 +125,6 @@ export default {
         else{
           return '/ Длительность: ' + duration + ' дней'
         }
-      }else{
-        return duration;
-      }
     },
     color: function(){
       switch (this.selected) {
@@ -145,11 +143,25 @@ export default {
         default:
           return ' border-left: solid 15px #aeaeeae';
       }
+    },
+    priority_text: function(){
+      console.log(this.priority);
+      if(this.priority > 3 && this.priority < 8){
+        return 'Средний';
+      }
+      else if (this.priority <= 3 && this.priority < 8) {
+        return 'Низкий';
+      }
+      else {
+        return 'Высокий';
+      }
     }
   },
   methods:{
+    priorityM: function(e){
+      this.priority = e.target.value;
+    },
     addTask: function(e){
-      console.log(this.startDate);
       this.tasks.length = 0;
       this.startDate = this.$refs.startDate.value == '' ? 'Не назначена' : this.$refs.startDate.value;
       this.lastDate =  this.$refs.lastDate.value == '' ? 'Не назначена' : this.$refs.lastDate.value;
@@ -167,7 +179,7 @@ export default {
       // firebase.database().ref('day-task').delete();
       this.count ++;
       let task_key = firebase.database().ref().push().key;
-      this.tasks.push({task_id: task_key,name: this.name,status: this.status,complate: this.complate,duration: this.duration, start: this.startDate, end: this.lastDate, priority: this.color});
+      this.tasks.push({task_id: task_key,name: this.name,status: this.status,complate: this.complate,duration: this.duration, start: this.startDate, end: this.lastDate, color: this.color});
 
 
         firebase.database().ref(task_key).set({
@@ -179,7 +191,7 @@ export default {
           duration: this.duration,
           start: this.startDate,
           end: this.lastDate,
-          priority: this.color
+          color: this.color
         });
 
       }
@@ -189,6 +201,7 @@ export default {
     this.tasks.length = 0;
     this.$store.dispatch('loadTasks');
     this.tasks = this.$store.state.data;
+    console.log(this.tasks);
   }
 }
 </script>

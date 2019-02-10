@@ -42,6 +42,8 @@ export default new Vuex.Store({
                task_date: data[value].task_date,
                start: data[value].start,
                end: data[value].end,
+               duration: data[value].duration,
+               color: data[value].color,
                priority: data[value].priority
              };
              someArr.push(baseData);
