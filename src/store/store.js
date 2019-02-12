@@ -55,6 +55,16 @@ export default new Vuex.Store({
       context.commit('loadTasks',someArr);
 
     },
+    remove(context, id){
+
+      // Delete the file
+      db.ref(id).remove().then(function() {
+        console.log('File deleted successfully');
+      }).catch(function(error) {
+        console.log('Uh-oh, an error occurred!');
+      });
+      // context.commit('deleteTodo',id);
+    },
     increment(context) {
       context.commit('increment',4);
     }

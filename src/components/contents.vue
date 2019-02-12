@@ -58,7 +58,7 @@
           </div>
         </div>
       </div>
-      <div class="col-sm-12 row task_list" v-for="task in tasks">
+      <div class="col-sm-12 row task_list" v-for="(task,index) in tasks" :id="task.task_id">
           <div class="border-bottom task_info" :style="task.color">
             <p class="col-sm-10">{{task.name}}</p>
             <span class="col-sm-2"></span>
@@ -72,7 +72,7 @@
           <hr>
           <div class="task_options">
             <a href="#" v-on:click="done()">C<i class="fa fa-check-circle-o" aria-hidden="true"></i></a>
-            <a href="#" v-on:click="remove()">D<i class="fa fa-check-trash-o" aria-hidden="true"></i></a>
+            <a href="#" v-on:click="remove(index)">D<i class="fa fa-check-trash-o" aria-hidden="true"></i></a>
             <a href="#" v-on:click="upTask()">U<i class="fa fa-arrow-circle-o-up" aria-hidden="true"></i></a>
           </div>
       </div>
@@ -112,6 +112,11 @@ export default {
       priority: 0,
       count: 0
     }
+  },
+  created() {
+    // this.tasks.length = 0;
+    this.$store.dispatch('loadTasks');
+    // this.tasks = this.$store.state.data;
   },
   computed:{
     duration: function(){
@@ -195,13 +200,12 @@ export default {
         });
 
       }
+    },
+    remove(index){
+      console.log(this.tasks[index].task_id);
+      let id = this.tasks[index].task_id;
+      this.$store.dispatch('remove',id);
     }
-  },
-  beforeMount() {
-    this.tasks.length = 0;
-    this.$store.dispatch('loadTasks');
-    this.tasks = this.$store.state.data;
-    console.log(this.tasks);
   }
 }
 </script>
