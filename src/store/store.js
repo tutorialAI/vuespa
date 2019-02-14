@@ -22,6 +22,8 @@ export default new Vuex.Store({
     data: [],
     count: 0
   },
+
+  
   // getters:{
   //   getProducts: state => state.baseData
   // },

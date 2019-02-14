@@ -116,6 +116,7 @@ export default {
   created() {
     // this.tasks.length = 0;
     this.$store.dispatch('loadTasks');
+    
     // this.tasks = this.$store.state.data;
   },
   computed:{
