@@ -2,11 +2,6 @@
   <div id="app">
       <header>
         <div class="container">
-
-          <!-- header -->
-          <button class="btn btn-info" @click="newMethod()">
-            Добавить пост
-          </button>
           <ul>
             <li v-for="location in locations">
               {{location.name}}
@@ -15,7 +10,7 @@
         </div>
       </header>
       <main class="container">
-        <aside class="aside col-md-2">
+        <!-- <aside class="aside col-md-2">
           <div class="">
             <app-category-list>
 
@@ -24,7 +19,7 @@
               more
             </span>
           </div>
-        </aside>
+        </aside> -->
         <div class="content col-md-10" >
 
             <app-contents>
@@ -49,11 +44,9 @@ export default {
       locations: []
     }
   },
-  // firestore(){
-  //   return {
-  //     locations: firebase.database()
-  //   }
-  // },
+  created() {
+    this.$store.dispatch('loadTasks');
+  },
   methods: {
     newMethod() {
       this.$store.commit('increment');
@@ -134,5 +127,82 @@ export default {
   }
   .padding_rest{
     padding: 0;
+  }
+  .event-buttons{
+    display: -webkit-flex;
+    display: -ms-flex;
+    display: flex;
+  }
+  .theme_btn{
+    height: 40px;
+    width: 40px;
+    display: -webkit-flex;
+    display: -ms-flex;
+    display: flex;
+    cursor: pointer;
+  }
+  .theme_btn svg{
+    width: 30px;
+    fill: #007bff;
+  }
+  .theme_btn:hover svg{
+    fill: #fff;
+  }
+  .category{
+    border-bottom: solid #1997c1 1px;
+    padding-bottom: 15px;
+  }
+  .category a{
+    display: block;
+    cursor: pointer;
+    width: 100%;
+    margin: 5px 0;
+    border-radius: 5px;
+    padding: 7px 0;
+    color: #333;
+    box-sizing: border-box;
+    padding-left: 15px;
+  }
+  .category a.active{
+    background: #1997c6; /* Old browsers */
+    background: -moz-linear-gradient(left, #1997c6 0%, #7db9e8 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(left, #1997c6 0%,#7db9e8 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to right, #1997c6 0%,#7db9e8 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1997c6', endColorstr='#7db9e8',GradientType=1 ); /* IE6-9 */
+    color: #fff;
+  }
+  .theme_select input,.theme_select select{
+    border: 1px solid #ced4da;
+    border-radius: 2px;
+    text-align: center;
+    padding: 10px 0;
+    display: -webkit-flex;
+    display: -ms-flex;
+  }
+  .theme_select select{
+    padding: 12px 10px;
+  }
+  .information_text{
+    margin: 10px 0;
+  }
+  .dropdown_btn{
+    margin-left: 10px;
+  }
+  .task_info{
+    position: relative;
+    border-bottom: solid 1px #eee;
+    border-top: solid 1px #eee;
+    margin: 15px -15px 0;
+  }
+  .task_list div:first-child{
+    margin-top: 15px;
+  }
+  .task_options{
+    position: absolute;
+    right: 15px;
+    top: 25px;
+  }
+  .task_name{
+    margin-top: 15px;
   }
 </style>

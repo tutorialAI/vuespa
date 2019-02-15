@@ -8,16 +8,18 @@ import 'firebase/firestore'
 import 'firebase/database'
 
 import App from './App.vue'
+import TodoItem from './components/todoItem.vue'
 import AppCategoryList from './components/categoryList.vue'
 import AppContents from './components/contents.vue'
 import AppCategory from './components/category.vue'
-import AppAddPost from './components/addPost.vue'
+import AddPost from './components/addPost.vue'
 
 
 Vue.component('AppCategoryList', AppCategoryList);
+Vue.component('TodoItem', TodoItem);
 Vue.component('AppContents', AppContents);
 Vue.component('AppCategory', AppCategory);
-Vue.component('AppCategory', AppAddPost);
+Vue.component('AddPost', AddPost);
 new Vue({
   store,
   el: '#app',

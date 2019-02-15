@@ -19,48 +19,48 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    data: [],
+    tasks: [],
     count: 0
   },
-
-  
-  // getters:{
-  //   getProducts: state => state.baseData
-  // },
+  getters:{
+    getProducts(){
+      return state.tasks;
+    }
+  },
   actions:{
-
-
     loadTasks(context){
-      let someArr = [];
+      let someArr = new Array();
       ref.on("value", function(snapshot) {
-           //
            let data = snapshot.val();
+           let index = 0;
            for (let value in snapshot.val()) {
-             let baseData = {
-               name: data[value].name,
-               task_id: data[value].task_id,
-               status: data[value].status,
-               complate: data[value].complate,
-               task_date: data[value].task_date,
-               start: data[value].start,
-               end: data[value].end,
-               duration: data[value].duration,
-               color: data[value].color,
-               priority: data[value].priority
-             };
-             someArr.push(baseData);
-           };
-
-      }, function (error) {
-         console.log("Error: " + error.code);
-      });
+             if(someArr[index] != null){
+               if(someArr[index].task_id == data[value].task_id){
+                 continue;
+               }
+             }else{
+               let baseData = {
+                 name: data[value].name,
+                 task_id: data[value].task_id,
+                 status: data[value].status,
+                 complate: data[value].complate,
+                 task_date: data[value].task_date,
+                 start: data[value].start,
+                 end: data[value].end,
+                 duration: data[value].duration,
+                 color: data[value].color,
+                 priority: data[value].priority
+               }
+               someArr.push(baseData);
+             }
+             index++;
+           }
+         });
       context.commit('loadTasks',someArr);
-
     },
-    remove(context, id){
-
-      // Delete the file
-      db.ref(id).remove().then(function() {
+    remove(context, payload){
+      context.commit('remove',payload.index);
+      db.ref(payload.task_id).remove().then(function() {
         console.log('File deleted successfully');
       }).catch(function(error) {
         console.log('Uh-oh, an error occurred!');
@@ -73,7 +73,10 @@ export default new Vuex.Store({
   },
   mutations:{
     loadTasks(state,payload){
-        state.data = payload;
+        state.tasks = payload;
+    },
+    remove(context,index){
+      context.tasks.splice(index,1);
     },
     increment(context,payload){
       context.count = payload > context.count ? context.count = payload : context.count;
