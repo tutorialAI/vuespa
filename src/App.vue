@@ -205,4 +205,13 @@ export default {
   .task_name{
     margin-top: 15px;
   }
+  .complete_line{
+    position: absolute;
+    width: 100%;
+    top: 50%;
+    height: 1px;
+    background-color: #a2a1a7;
+    left: 0;
+    border-radius: 5px 0 5px 0;
+  }
 </style>

@@ -5,7 +5,7 @@
       Заголовок задачи
     </span>
     <div class="fm col-sm-8">
-      <add-post></add-post>
+      <todo-add></todo-add>
       <todo-item></todo-item>
   </div>
   </div>

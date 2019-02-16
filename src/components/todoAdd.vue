@@ -66,7 +66,7 @@ export default {
       selected: 'yellow',
       task_id: 0,
       status: false,
-      complate: 0,
+      complete: 0,
       priority: 0,
       count: 0
     }
@@ -135,13 +135,13 @@ export default {
       }else{
       this.count ++;
       let task_key = firebase.database().ref().push().key;
-      this.$store.state.tasks.push({task_id: task_key,name: this.name,status: this.status,complate: this.complate,duration: this.duration, start: this.startDate, end: this.lastDate, color: this.color});
+      this.$store.state.tasks.push({task_id: task_key,name: this.name,status: this.status,complete: this.complete,duration: this.duration, start: this.startDate, end: this.lastDate, color: this.color});
         firebase.database().ref(task_key).set({
           name: this.name,
           task_id: task_key,
           name: this.name,
           status: this.status,
-          complate: this.complate,
+          complete: this.complete,
           duration: this.duration,
           start: this.startDate,
           end: this.lastDate,

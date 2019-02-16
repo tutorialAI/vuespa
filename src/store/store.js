@@ -42,8 +42,7 @@ export default new Vuex.Store({
                let baseData = {
                  name: data[value].name,
                  task_id: data[value].task_id,
-                 status: data[value].status,
-                 complate: data[value].complate,
+                 complete: data[value].complete,
                  task_date: data[value].task_date,
                  start: data[value].start,
                  end: data[value].end,
@@ -65,7 +64,10 @@ export default new Vuex.Store({
       }).catch(function(error) {
         console.log('Uh-oh, an error occurred!');
       });
-      // context.commit('deleteTodo',id);
+    },
+    complete(context,payload){
+      db.ref(payload.task_id+'/complete').set(payload.task_status);
+      context.commit('complete',payload);
     },
     increment(context) {
       context.commit('increment',4);
@@ -77,6 +79,9 @@ export default new Vuex.Store({
     },
     remove(context,index){
       context.tasks.splice(index,1);
+    },
+    complete(context,payload){
+      context.tasks[payload.index].complete = payload.task_status;
     },
     increment(context,payload){
       context.count = payload > context.count ? context.count = payload : context.count;
