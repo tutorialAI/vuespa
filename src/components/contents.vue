@@ -1,14 +1,18 @@
 <template lang="html">
   <div class="container">
-    <!-- <button class="btn btn-prymary">Show all</button> -->
-    <span class="section_name">
-      Заголовок задачи
-    </span>
-    <div class="fm col-sm-8">
+    <div class="row">
+    <div class="col-sm-4">
+      <todo-aside></todo-aside>
+    </div>
+    <div class="col-sm-8">
+      <span class="section_name">
+        Заголовок задачи
+      </span>
       <todo-add></todo-add>
       <todo-item></todo-item>
+    </div>
   </div>
-  </div>
+</div>
 </template>
 
 <script>

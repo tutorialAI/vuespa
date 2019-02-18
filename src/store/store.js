@@ -25,6 +25,15 @@ export default new Vuex.Store({
   getters:{
     getProducts(){
       return state.tasks;
+    },
+    getDays(state){
+      if(state.tasks.length != 0){
+        let days = [];
+        for(let e = 0; e < state.tasks.length; e++){
+          days.push(state.tasks[e].end);
+        }
+        return days;
+      }
     }
   },
   actions:{
@@ -48,7 +57,8 @@ export default new Vuex.Store({
                  end: data[value].end,
                  duration: data[value].duration,
                  color: data[value].color,
-                 priority: data[value].priority
+                 priority: data[value].priority,
+                 opacity: data[value].opacity,
                }
                someArr.push(baseData);
              }
@@ -67,6 +77,8 @@ export default new Vuex.Store({
     },
     complete(context,payload){
       db.ref(payload.task_id+'/complete').set(payload.task_status);
+      db.ref(payload.task_id+'/color').set(payload.color);
+      db.ref(payload.task_id+'/opacity').set(payload.opacity);
       context.commit('complete',payload);
     },
     increment(context) {
@@ -82,6 +94,7 @@ export default new Vuex.Store({
     },
     complete(context,payload){
       context.tasks[payload.index].complete = payload.task_status;
+      context.tasks[payload.index].opacity = payload.opacity;
     },
     increment(context,payload){
       context.count = payload > context.count ? context.count = payload : context.count;

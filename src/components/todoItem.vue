@@ -1,7 +1,7 @@
 <template>
   <div class="row task_list">
     <div class="col-sm-12" v-for="(task,index) in this.$store.state.tasks">
-        <div class="task_info" :style="task.color">
+        <div class="task_info" :style="task.color+';opacity:'+task.opacity">
           <p class="task_name col-sm-10">{{task.name}}</p>
           <small class="text-muted col-sm-12" style="font-size: 12px">Дата начала: {{task.start}} / Дата завершения: {{ task.end }} {{ task.duration }}</small>
         </div>
@@ -22,7 +22,8 @@
 export default {
   name: "",
   data(){
-    return {
+    return{
+
     }
   },
   methods: {
@@ -36,16 +37,32 @@ export default {
     },
     done(index){
       let task_id = this.$store.state.tasks[index].task_id;
-      let task_status = this.$store.state.tasks[index].complete == true ? false : true;
+      let color = this.$store.state.tasks[index].color;
+      let opacity = 1;
+      let task_status = true;
+
+      if(this.$store.state.tasks[index].complete){
+        task_status = false;
+        opacity = 1;
+      }else{
+        task_status = true;
+        opacity = 0.5;
+      }
+
       let data = {
         task_id: task_id,
         task_status: task_status,
-        index: index
+        index: index,
+        color: color,
+        opacity: opacity
       };
       this.$store.dispatch('complete',data);
     }
   }
 }
 </script>
-<style scoped>
+<style>
+  .task_info{
+    transition: 0.5s;
+  }
 </style>
