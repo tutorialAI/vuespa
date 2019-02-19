@@ -17,28 +17,35 @@ var ref = firebase.database().ref();
 
 Vue.use(Vuex);
 
+function getUnique(array){
+  var object  = {};
+  for (var i = 0; i < array.length; i++) {
+    var str = array[i];
+    object[str] = true;
+  }
+  return Object.keys(object);
+};
+
 export default new Vuex.Store({
   state: {
     tasks: [],
-    count: 0
+    count: 0,
+    days: []
   },
   getters:{
     getProducts(){
       return state.tasks;
     },
     getDays(state){
-      if(state.tasks.length != 0){
-        let days = [];
-        for(let e = 0; e < state.tasks.length; e++){
-          days.push(state.tasks[e].end);
-        }
-        return days;
+      if(state.days.length != 0){
+        return getUnique(state.days.sort());
       }
     }
   },
   actions:{
     loadTasks(context){
-      let someArr = new Array();
+      let someArr = [];
+      let daysArray = [];
       ref.on("value", function(snapshot) {
            let data = snapshot.val();
            let index = 0;
@@ -60,12 +67,14 @@ export default new Vuex.Store({
                  priority: data[value].priority,
                  opacity: data[value].opacity,
                }
+               daysArray.push(data[value].end);
                someArr.push(baseData);
              }
              index++;
            }
          });
       context.commit('loadTasks',someArr);
+      context.commit('daysCreate',daysArray);
     },
     remove(context, payload){
       context.commit('remove',payload.index);
@@ -95,6 +104,20 @@ export default new Vuex.Store({
     complete(context,payload){
       context.tasks[payload.index].complete = payload.task_status;
       context.tasks[payload.index].opacity = payload.opacity;
+    },
+    daysCreate(context,payload){
+      context.days = payload;
+    },
+    getDayTasks(context,payload){
+      if(context.days.length != 0){
+        var tasksInDay = [];
+        context.tasks.forEach(function(value,index){
+          if(value.end == payload){
+            tasksInDay.push(value);
+          }
+        });
+        context.tasks = tasksInDay;
+      }
     },
     increment(context,payload){
       context.count = payload > context.count ? context.count = payload : context.count;

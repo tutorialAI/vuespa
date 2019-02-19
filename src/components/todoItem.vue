@@ -1,21 +1,19 @@
 <template>
   <div class="row task_list">
-    <div class="col-sm-12" v-for="(task,index) in this.$store.state.tasks">
+    <transition-group name="next-task">
+    <div class="col-sm-12" v-for="(task,index) in this.$store.state.tasks" v-bind:key="index">
         <div class="task_info" :style="task.color+';opacity:'+task.opacity">
           <p class="task_name col-sm-10">{{task.name}}</p>
           <small class="text-muted col-sm-12" style="font-size: 12px">Дата начала: {{task.start}} / Дата завершения: {{ task.end }} {{ task.duration }}</small>
         </div>
         <div class="complete_line" v-if="task.complete"></div>
-          <!-- <p>task_id {{task.task_id}}</p> -->
-
-          <!-- <p>complete {{task.complete}};</p>
-          <p>task_date {{task.duration}};</p> -->
         <div class="task_options">
           <a href="#" v-on:click.prevent="done(index)">C<i class="fa fa-check-circle-o" aria-hidden="true"></i></a>
           <a href="#" v-on:click.prevent="remove(index)">D<i class="fa fa-check-trash-o" aria-hidden="true"></i></a>
           <a href="#" v-on:click.prevent="upTask()">U<i class="fa fa-arrow-circle-o-up" aria-hidden="true"></i></a>
         </div>
     </div>
+  </transition-group>
   </div>
 </template>
 <script>
@@ -63,6 +61,20 @@ export default {
 </script>
 <style>
   .task_info{
-    transition: 0.5s;
+    transition: 0.4s;
+  }
+  .next-task-enter-active {
+    transition: all .3s ease;
+  }
+  .next-task-leave-active {
+    transition: all .5s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+  }
+  .next-task-enter, .next-task-leave-to {
+    transform: translateX(10px);
+    opacity: 0;
+  }
+  .task_list span{
+    display: inline-block;
+    width: 100%;
   }
 </style>

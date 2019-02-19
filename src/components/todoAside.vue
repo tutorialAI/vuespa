@@ -1,8 +1,8 @@
 <template lang="html">
   <div class="category">
     <span class="section_name">Список дел на</span>
-    <li><a href="#" :class='active'>{{ today }}</a></li>
-    <li v-for="(day,index) in completed_days"><a href="#" >{{ day }}</a></li>
+    <!-- <li><a href="#" :class='active'>{{ today }}</a></li> -->
+    <li v-for="(day,index) in completed_days"><a href="#" @click.prevent="nextDay(index)">{{ day }}</a></li>
   </div>
 </template>
 
@@ -24,6 +24,12 @@ export default {
     },
     active(){
       return 'active'
+    }
+  },
+  methods:{
+    nextDay(index){
+      let day = this.$store.state.tasks[index].end;
+      this.$store.commit('getDayTasks',day);
     }
   }
 }
