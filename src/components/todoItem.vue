@@ -10,7 +10,7 @@
         <div class="task_options">
           <a href="#" v-on:click.prevent="done(index)">C<i class="fa fa-check-circle-o" aria-hidden="true"></i></a>
           <a href="#" v-on:click.prevent="remove(index)">D<i class="fa fa-check-trash-o" aria-hidden="true"></i></a>
-          <a href="#" v-on:click.prevent="upTask()">U<i class="fa fa-arrow-circle-o-up" aria-hidden="true"></i></a>
+          <a href="#" v-on:click.prevent="upTask()">F<i class="fa fa-arrow-circle-o-up" aria-hidden="true"></i></a>
         </div>
     </div>
   </transition-group>

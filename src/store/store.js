@@ -38,7 +38,14 @@ export default new Vuex.Store({
     },
     getDays(state){
       if(state.days.length != 0){
-        return getUnique(state.days.sort());
+        let daysList = [];
+        ref.orderByChild('end').on('value',function(snapshot){
+          snapshot.forEach(function(value){
+            daysList.push(value.val().end);
+          });
+        });
+        daysList.push("Показать все задачи","Задачи без дат");
+        return getUnique(daysList);
       }
     }
   },
@@ -109,15 +116,24 @@ export default new Vuex.Store({
       context.days = payload;
     },
     getDayTasks(context,payload){
-      if(context.days.length != 0){
         var tasksInDay = [];
-        context.tasks.forEach(function(value,index){
-          if(value.end == payload){
-            tasksInDay.push(value);
-          }
-        });
+
+        if(payload == 'Показать все задачи'){
+          ref.orderByChild("end").on("value", function(snapshot){
+            snapshot.forEach(function(value,index){
+              tasksInDay.push(value.val());
+            })
+          });
+        }else{
+          ref.orderByChild("end").equalTo(payload).on("value", function(snapshot){
+            snapshot.forEach(function(value,index){
+              tasksInDay.push(value.val());
+            })
+          });
+        }
+        console.log(payload);
         context.tasks = tasksInDay;
-      }
+      // }
     },
     increment(context,payload){
       context.count = payload > context.count ? context.count = payload : context.count;

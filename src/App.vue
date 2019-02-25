@@ -1,14 +1,5 @@
 <template>
   <div id="app">
-      <header>
-        <div class="container">
-          <ul>
-            <li v-for="location in locations">
-              {{location.name}}
-            </li>
-          </ul>
-        </div>
-      </header>
       <main class="container">
         <!-- <aside class="aside col-md-2">
           <div class="">
@@ -27,11 +18,6 @@
             </app-contents>
         </div>
       </main>
-      <footer>
-        <div class="container">
-          <!-- footer -->
-        </div>
-      </footer>
   </div>
   <!-- https://bootstrap-themes.github.io/dashboard/?ver=2 -->
 </template>
@@ -41,7 +27,6 @@ export default {
   name: 'app',
   data () {
     return{
-      locations: []
     }
   },
   created() {
@@ -56,6 +41,11 @@ export default {
 </script>
 
 <style>
+  body{
+    background: url('./assets/img/guillermo-b-1392134-unsplash.jpg') no-repeat center center / cover;
+    /* background: #eee; */
+
+  }
   input{
     outline: none;
   }
@@ -86,6 +76,7 @@ export default {
     flex-direction: column;
   }
   main{
+    padding-top: 15px;
     flex: 1 0 auto;
     /* border: solid green ; */
     display: -webkit-flex;
@@ -104,8 +95,10 @@ export default {
     max-width: 100%;
     max-height: 100%;
   }
+  main.container{
+    background-color: #fff;
+  }
   .content{
-    /* border: solid #333; */
     height: 55px;
   }
 
