@@ -4,8 +4,6 @@
     <span class="section_name">Список дел на</span>
     <!-- <li><a href="#" :class='active'>{{ today }}</a></li> -->
     <li v-for="(day,index) in completed_days" :class="{active:index == selected}"><a href="#" @click.prevent="nextDay(index)">{{ day }}</a></li>
-    <li><a href="#">Показать выполненные</a></li>
-    <li><a href="#">Избранные</a></li>
   </div>
   </span>
 </template>

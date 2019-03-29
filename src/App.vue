@@ -1,21 +1,9 @@
 <template>
   <div id="app">
-      <main class="container">
-        <!-- <aside class="aside col-md-2">
-          <div class="">
-            <app-category-list>
-
-            </app-category-list>
-            <span class="section_name">
-              more
-            </span>
-          </div>
-        </aside> -->
+    <auth v-on:singin="auth()"></auth>
+      <main class="container" v-if="authStatus">
         <div class="content col-md-10" >
-
-            <app-contents>
-
-            </app-contents>
+            <app-contents></app-contents>
         </div>
       </main>
   </div>
@@ -27,6 +15,7 @@ export default {
   name: 'app',
   data () {
     return{
+      authStatus: false
     }
   },
   created() {
@@ -35,6 +24,9 @@ export default {
   methods: {
     newMethod() {
       this.$store.commit('increment');
+    },
+    auth(){
+      console.log(this.authStatus )
     }
   }
 };
@@ -43,7 +35,7 @@ export default {
 <style>
   body{
     background: url('./assets/img/guillermo-b-1392134-unsplash.jpg') no-repeat center center / cover;
-    /* background: #eee; */
+    background-attachment: fixed;
 
   }
   input{
@@ -98,9 +90,9 @@ export default {
   main.container{
     background-color: #fff;
   }
-  .content{
+  /* .content{
     height: 55px;
-  }
+  } */
 
   .aside {
     /* border: solid red; */

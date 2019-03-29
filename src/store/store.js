@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import firebase from 'firebase/app'
+import userModule from './user'
 import 'firebase/database'
 
 var config = {
@@ -14,7 +15,6 @@ var config = {
 let app = firebase.initializeApp(config);
 let db = app.database();
 var ref = firebase.database().ref();
-
 Vue.use(Vuex);
 
 function getUnique(array){
@@ -44,7 +44,7 @@ export default new Vuex.Store({
             daysList.push(value.val().end);
           });
         });
-        daysList.push("Показать все задачи","Задачи без дат");
+        daysList.push("Показать все задачи","Показать выполненные","Избранные");
         return getUnique(daysList);
       }
     }
@@ -52,34 +52,34 @@ export default new Vuex.Store({
   actions:{
     loadTasks(context){
       let someArr = [];
-      let daysArray = [];
-      ref.on("value", function(snapshot) {
-           let data = snapshot.val();
-           let index = 0;
-           for (let value in snapshot.val()) {
-             if(someArr[index] != null){
-               if(someArr[index].task_id == data[value].task_id){
-                 continue;
-               }
-             }else{
-               let baseData = {
-                 name: data[value].name,
-                 task_id: data[value].task_id,
-                 complete: data[value].complete,
-                 task_date: data[value].task_date,
-                 start: data[value].start,
-                 end: data[value].end,
-                 duration: data[value].duration,
-                 color: data[value].color,
-                 priority: data[value].priority,
-                 opacity: data[value].opacity,
-               }
-               daysArray.push(data[value].end);
-               someArr.push(baseData);
-             }
-             index++;
-           }
-         });
+      let daysArray = ['2019-02-20'];
+      // ref.on("value", function(snapshot) {
+      //      let data = snapshot.val();
+      //      let index = 0;
+      //      for (let value in snapshot.val()) {
+      //        if(someArr[index] != null){
+      //          if(someArr[index].task_id == data[value].task_id){
+      //            continue;
+      //          }
+      //        }else{
+      //          let baseData = {
+      //            name: data[value].name,
+      //            task_id: data[value].task_id,
+      //            complete: data[value].complete,
+      //            task_date: data[value].task_date,
+      //            start: data[value].start,
+      //            end: data[value].end,
+      //            duration: data[value].duration,
+      //            color: data[value].color,
+      //            priority: data[value].priority,
+      //            opacity: data[value].opacity,
+      //          }
+      //          daysArray.push(data[value].end);
+      //          someArr.push(baseData);
+      //        }
+      //        index++;
+      //      }
+      //    });
       context.commit('loadTasks',someArr);
       context.commit('daysCreate',daysArray);
     },
@@ -124,7 +124,14 @@ export default new Vuex.Store({
               tasksInDay.push(value.val());
             })
           });
-        }else{
+        }else if(payload == 'Показать выполненные'){
+          ref.orderByChild("complete").equalTo(true).on("value", function(snapshot){
+            snapshot.forEach(function(value,index){
+              tasksInDay.push(value.val());
+            })
+          });
+        }
+        else{
           ref.orderByChild("end").equalTo(payload).on("value", function(snapshot){
             snapshot.forEach(function(value,index){
               tasksInDay.push(value.val());
@@ -139,11 +146,8 @@ export default new Vuex.Store({
       context.count = payload > context.count ? context.count = payload : context.count;
       context.count++
     }
-  }
-});
-
-new Vue({
-  data:{
-    firebase: db
+  },
+  modules:{
+    userModule
   }
 });

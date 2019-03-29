@@ -14,6 +14,7 @@ import AppContents from './components/contents.vue'
 import AppCategory from './components/category.vue'
 import TodoAdd from './components/todoAdd.vue'
 import TodoComplete from './components/todoComplete.vue'
+import Auth from './components/auth.vue'
 
 
 Vue.component('TodoAside', TodoAside);
@@ -22,6 +23,7 @@ Vue.component('AppCategory', AppCategory);
 Vue.component('TodoItem', TodoItem);
 Vue.component('TodoAdd', TodoAdd);
 Vue.component('TodoComplete', TodoComplete);
+Vue.component('Auth', Auth);
 new Vue({
   store,
   el: '#app',
