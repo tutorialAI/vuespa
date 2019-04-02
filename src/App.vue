@@ -1,11 +1,20 @@
 <template>
   <div id="app">
-    <auth v-on:singin="auth()"></auth>
       <main class="container" v-if="authStatus">
+        <div class="profile">
+          <div class="profile-name">
+            Ai
+          </div>
+          <div class="profile-pic">
+
+          </div>
+        </div>
+        <span v-on:click="signOut()">Выход</span>
         <div class="content col-md-10" >
             <app-contents></app-contents>
         </div>
       </main>
+      <auth v-on:singin="auth()" v-else></auth>
   </div>
   <!-- https://bootstrap-themes.github.io/dashboard/?ver=2 -->
 </template>
@@ -15,18 +24,26 @@ export default {
   name: 'app',
   data () {
     return{
-      authStatus: false
+      // authStatus: false
     }
   },
   created() {
+    this.$store.dispatch('getUserInfo');
     this.$store.dispatch('loadTasks');
+    console.log(this.$store.state.userModule.authStatus);
   },
   methods: {
     newMethod() {
       this.$store.commit('increment');
     },
-    auth(){
-      console.log(this.authStatus )
+    signOut(){
+      console.log('signOut');
+      this.$store.dispatch('signOut');
+    }
+  },
+  computed:{
+    authStatus(){
+      return this.$store.state.userModule.authStatus;
     }
   }
 };
@@ -68,13 +85,15 @@ export default {
     flex-direction: column;
   }
   main{
-    padding-top: 15px;
+    padding-top: 2%;
+    margin-top: 5%;
     flex: 1 0 auto;
     /* border: solid green ; */
     display: -webkit-flex;
     display: -ms-flex;
     display: flex;
     flex-wrap: wrap;
+    position: relative;
   }
   footer,fer{
     flex: 0 0 auto;
@@ -198,5 +217,28 @@ export default {
     background-color: #a2a1a7;
     left: 0;
     border-radius: 5px 0 5px 0;
+  }
+  .auth_container-alert{
+    position: absolute;
+    top: 10px;
+    right: 10px;
+  }
+  .profile{
+    position: absolute;
+    top: -37px;
+    border: solid 2px #52aad9;
+    padding: 5px;
+    background: #fff;
+    border-radius: 50%;
+    font-size: 26px;
+    text-transform: uppercase;
+    display: flex;
+    width: 80px;
+    justify-content: center;
+    align-items: center;
+    height: 80px;
+    right: 0;
+    cursor: pointer;
+    color: #52aad9;
   }
 </style>

@@ -1,6 +1,12 @@
 <template>
   <div class="auth_container">
     <!-- <transition-group name="fade" tag="div"> -->
+    <transition name="slide-fade" tag="div">
+      <div class="alert alert-warning auth_container-alert" role="alert" v-show="errorMessage">
+        {{ errorMessage }}
+      </div>
+    </transition>
+    <button v-on:click.prevent="getUserInfo()" class="btn btn-success">getInfo</button>
       <div class="auth_container-inner" v-show="rigister" key="singin">
           <div class="auth_container-title">
             Вход
@@ -35,19 +41,19 @@
         <div class="auth_container-title">
           Регистрация
         </div>
-        <form class="auth_container-inputs form-group">
-          <input type="text" placeholder="Имя пользователя" required>
-          <input type="email" placeholder="Email" required>
-          <input type="password" placeholder="Пароль" required>
-          <input type="password" placeholder="Повторить пароль">
+        <div class="auth_container-inputs form-group">
+          <input type="text" placeholder="Имя пользователя" v-model="userName">
+          <input type="email" v-model="emailSingup" placeholder="Email">
+          <input type="password" v-model="passwordSingup" placeholder="Пароль">
+          <input type="password" v-model="secondPassword" placeholder="Повторить пароль">
           <label>
             <input type="checkbox">
             <span>Принимаю <a href="#">условия соглашения</a></span>
           </label>
-          <button type="submit" class="btn btn-primary main_bg btn_sinin" v-on:click="$emit('singin')">
+          <button type="submit" class="btn btn-primary main_bg btn_sinin" v-on:click.prevent="singup();">
             Регистрация
           </button>
-        </form>
+        </div>
         <div class="singin_with-social">
           <div class="singin_with-text">Войти с помощью</div>
           <div class="singin_with-items">
@@ -67,13 +73,17 @@
   </div>
 </template>
 <script>
-
   export default {
     data(){
         return {
           rigister: true,
           email: '',
-          password: 0
+          password: null,
+          secondPassword: null,
+          passwordSingup: null,
+          emailSingup: '',
+          errorMessage: '',
+          userName: ''
         }
     },
     methods: {
@@ -81,9 +91,31 @@
         this.rigister = this.rigister == true ? false : true;
       },
       singin(){
-        this.$store.dispatch('singup',{email: this.email, password: this.password});
+        this.$store.dispatch('singin',{email: this.email, password: this.password});
+        if(this.$store.state.userModule.error != ''){
+          this.errorMessage = this.$store.state.userModule.error;
+        }
+      },
+      singup(){
+        if(this.passwordSingup != this.secondPassword){
+          this.errorMessage = 'Пароли не совпадают';
+        }else{
+          this.$store.dispatch('singup',{email: this.emailSingup, password: this.passwordSingup, user: this.userName});
+          if(this.$store.state.userModule.error != ''){
+            this.errorMessage = this.$store.state.userModule.error;
+          }
+        }
+      },
+      getUserInfo(){
+        this.$store.dispatch('getUserInfo');  
       }
     }
+    // computed: {
+    //   error_message(){
+    //     return this.$store.state.userModule.error == '' ? false : this.$store.state.userModule.error;
+    //     // var warningTimer = setTimeout(clearWarning(this.$store.state.userModule.error,warningTimer),1000);
+    //   }
+    // }
   }
 </script>
 <style>
@@ -94,7 +126,9 @@
     -ms-align-items: center;
     align-items: center;
     justify-content: center;
+    position: relative;
     height: 100%;
+    box-sizing: border-box;
   }
   .auth_container-inner{
     width: 350px;
@@ -165,6 +199,15 @@
     text-align: center;
     border: solid 1px #1997c6;
   }
-
-
+  .slide-fade-enter-active {
+    transition: all .3s ease;
+  }
+  .slide-fade-leave-active {
+    transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+  }
+  .slide-fade-enter, .slide-fade-leave-to
+  /* .slide-fade-leave-active до версии 2.1.8 */ {
+    transform: translateX(10px);
+    opacity: 0;
+  }
 </style>
