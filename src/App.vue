@@ -2,14 +2,16 @@
   <div id="app">
       <main class="container" v-if="authStatus">
         <div class="profile">
-          <div class="profile-name">
-            Ai
+          <div class="profile-inner">
+            <div class="profile-pic" v-if="userPic">
+                <img :src="userPic" alt="">
+            </div>
+            <div class="profile-name" v-else>
+                {{ userName }}
+            </div>
           </div>
-          <div class="profile-pic">
-
-          </div>
+          <span v-on:click="signOut()">Выход</span>
         </div>
-        <span v-on:click="signOut()">Выход</span>
         <div class="content col-md-10" >
             <app-contents></app-contents>
         </div>
@@ -24,26 +26,36 @@ export default {
   name: 'app',
   data () {
     return{
-      // authStatus: false
+      pageLoaded: true
     }
   },
-  created() {
+  beforeCreate(){
     this.$store.dispatch('getUserInfo');
-    this.$store.dispatch('loadTasks');
-    console.log(this.$store.state.userModule.authStatus);
+    this.$store.dispatch('loadTasks',true);
+    console.log(this.$store.state.userModule.displayName);
+    console.log('beforeCreate->true');
+  },
+  beforeUpdate(){
+    this.$store.dispatch('loadTasks',false);
+    console.log('beforeUpdate->true');
   },
   methods: {
     newMethod() {
       this.$store.commit('increment');
     },
     signOut(){
-      console.log('signOut');
       this.$store.dispatch('signOut');
     }
   },
   computed:{
     authStatus(){
       return this.$store.state.userModule.authStatus;
+    },
+    userPic(){
+      return this.$store.state.userModule.user.photoURL;
+    },
+    userName(){
+      return this.$store.state.userModule.user.displayName.slice(0,2);
     }
   }
 };
@@ -192,23 +204,6 @@ export default {
   .dropdown_btn{
     margin-left: 10px;
   }
-  .task_info{
-    position: relative;
-    border-bottom: solid 1px #eee;
-    border-top: solid 1px #eee;
-    margin: 15px -15px 0;
-  }
-  .task_list div:first-child{
-    margin-top: 15px;
-  }
-  .task_options{
-    position: absolute;
-    right: 15px;
-    top: 25px;
-  }
-  .task_name{
-    margin-top: 15px;
-  }
   .complete_line{
     position: absolute;
     width: 100%;
@@ -226,9 +221,13 @@ export default {
   .profile{
     position: absolute;
     top: -37px;
-    border: solid 2px #52aad9;
-    padding: 5px;
+    right: 0;
+    text-align: center;
+  }
+  .profile-inner{
     background: #fff;
+    border: solid 2px #52aad9;
+    overflow: hidden;
     border-radius: 50%;
     font-size: 26px;
     text-transform: uppercase;
@@ -237,8 +236,14 @@ export default {
     justify-content: center;
     align-items: center;
     height: 80px;
-    right: 0;
     cursor: pointer;
     color: #52aad9;
+  }
+  .profile-name{
+    padding: 5px;
+  }
+  .profile span{
+    /* color: #52aad9; */
+    cursor: pointer;
   }
 </style>

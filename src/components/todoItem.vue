@@ -8,9 +8,9 @@
         </div>
         <div class="complete_line" v-if="task.complete"></div>
         <div class="task_options">
-          <a href="#" v-on:click.prevent="done(index)">Completed<i class="fa fa-check-circle-o" aria-hidden="true"></i></a>
-          <a href="#" v-on:click.prevent="remove(index)">Delite<i class="fa fa-check-trash-o" aria-hidden="true"></i></a>
-          <a href="#" v-on:click.prevent="upTask()">Favorite<i class="fa fa-arrow-circle-o-up" aria-hidden="true"></i></a>
+          <a href="#" v-on:click.prevent="done(index)"><i class="fa fa-check-circle-o" aria-hidden="true"></i></a>
+          <a href="#" v-on:click.prevent="remove(index)"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+          <a href="#" v-on:click.prevent="upTask()"><i class="fa fa-arrow-circle-o-up" aria-hidden="true"></i></a>
         </div>
     </div>
   </transition-group>
@@ -55,6 +55,7 @@ export default {
         opacity: opacity
       };
       this.$store.dispatch('complete',data);
+      console.log(this.$store.state.tasks);
     }
   }
 }
@@ -76,5 +77,27 @@ export default {
   .task_list span{
     display: inline-block;
     width: 100%;
+  }
+  .task_options{
+    position: absolute;
+    right: 15px;
+    top: 10px;
+    opacity: .8;
+  }
+  .task_options a{
+    margin-left: 5px;
+    font-size: 18px;
+  }
+  .task_info{
+    position: relative;
+    border-bottom: solid 1px #eee;
+    border-top: solid 1px #eee;
+    margin: 15px -15px 0;
+  }
+  .task_list div:first-child{
+    margin-top: 15px;
+  }
+  .task_name{
+    margin-top: 15px;
   }
 </style>

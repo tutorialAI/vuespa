@@ -3,11 +3,18 @@ import firebase from 'firebase';
 export default ({
   state:{
     authStatus: false,
-    error: ''
+    error: '',
+    user: ''
   },
   mutations: {
     authStatus(state,payload){
       state.authStatus = payload;
+    },
+    userInfo(state,payload){
+      state.user = payload;
+    },
+    setError(state,payload){
+      state.error = payload;
     }
   },
   actions:{
@@ -18,7 +25,7 @@ export default ({
           if(user){
             firebase.auth().currentUser.updateProfile({
                displayName: payload.user,
-               photoURL: 'https://randomuser.me/api/portraits/women/68.jpg'
+               photoURL: ''
             }).then(
               (s)=> {
                 console.log("done");
@@ -30,34 +37,26 @@ export default ({
       .catch((error)=>{
         var errorCode = error.code;
         context.state.error = error.message;
-        console.log(error.message);
+        console.log(context.state.error);
       });
     },
     singin(context, payload){
       firebase.auth().signInWithEmailAndPassword(payload.email, payload.password)
       .then(function(){
-        console.log("Well done");
+        console.log("User logged");
       })
       .catch(function(error) {
+        console.log(error.message);
+        context.commit('setError',error.message);
       })
     },
     getUserInfo(context){
       firebase.auth().onAuthStateChanged(function(user) {
         if (user) {
           context.commit('authStatus',true);
-          console.log(
-          `
-          displayName = ${user.displayName};
-          email = ${user.email};
-          emailVerified = ${user.emailVerified};
-          photoURL = ${user.photoURL};
-          isAnonymous = ${user.isAnonymous};
-          uid = ${user.uid};
-          providerData = ${user.providerData};
-          `);
-        } else {
-          // User is signed out.
-          // ...
+          context.commit('userInfo',user);
+        }else{
+          console.log("does not logged");
         }
       });
     },

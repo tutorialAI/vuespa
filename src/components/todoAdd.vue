@@ -1,5 +1,5 @@
 <template lang="html">
-  <div class="border-top col-sm-12 row">
+  <div class="border-top row">
     <div class="input-group col-sm-10">
       <input type="text" class="form-control" ref="test" v-model="name" placeholder="Добавьте что-нибдь в список своих дел...">
       <div class="bpt">
@@ -42,7 +42,7 @@
                 <option value="green">Зеленый</option>
               </select>
             </div>
-            <small class="form-text text-muted col-sm-12 information_text">We'll never share your email with anyone else.</small>
+            <small class="form-text text-muted col-sm-12 information_text"></small>
             <div class="col-sm-6 theme_select">
               <label for="priority">
                 Приоритет: {{ priority_text }}

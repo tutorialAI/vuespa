@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import bootstrap from 'bootstrap-css-only'
 import store from './store/store'
-// import fontawesome from '@fortawesome/fontawesome'
+import 'font-awesome/css/font-awesome.css'
 import VueFire from 'vuefire'
 import firebase from 'firebase/app'
 import 'firebase/firestore'
@@ -24,6 +24,7 @@ Vue.component('TodoItem', TodoItem);
 Vue.component('TodoAdd', TodoAdd);
 Vue.component('TodoComplete', TodoComplete);
 Vue.component('Auth', Auth);
+
 new Vue({
   store,
   el: '#app',

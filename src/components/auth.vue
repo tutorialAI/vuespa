@@ -2,8 +2,8 @@
   <div class="auth_container">
     <!-- <transition-group name="fade" tag="div"> -->
     <transition name="slide-fade" tag="div">
-      <div class="alert alert-warning auth_container-alert" role="alert" v-show="errorMessage">
-        {{ errorMessage }}
+      <div class="alert alert-warning auth_container-alert" role="alert" v-show="message" ref="alertMessage">
+        {{ message }}
       </div>
     </transition>
     <button v-on:click.prevent="getUserInfo()" class="btn btn-success">getInfo</button>
@@ -12,8 +12,8 @@
             Вход
           </div>
           <div class="auth_container-inputs form-group">
-            <input type="email" placeholder="Email" v-model="email">
-            <input type="password" placeholder="Пароль" v-model="password">
+            <input type="email" placeholder="Email" ref="email">
+            <input type="password" placeholder="Пароль" ref="password">
             <label>
               <input type="checkbox">
               <span>Запомнить меня</span>
@@ -42,10 +42,10 @@
           Регистрация
         </div>
         <div class="auth_container-inputs form-group">
-          <input type="text" placeholder="Имя пользователя" v-model="userName">
-          <input type="email" v-model="emailSingup" placeholder="Email">
-          <input type="password" v-model="passwordSingup" placeholder="Пароль">
-          <input type="password" v-model="secondPassword" placeholder="Повторить пароль">
+          <input type="text" placeholder="Имя пользователя" ref="userName">
+          <input type="email" ref="emailSingup" placeholder="Email">
+          <input type="password" ref="passwordSingup" placeholder="Пароль">
+          <input type="password" ref="secondPassword" placeholder="Повторить пароль">
           <label>
             <input type="checkbox">
             <span>Принимаю <a href="#">условия соглашения</a></span>
@@ -73,17 +73,22 @@
   </div>
 </template>
 <script>
+
+  function warningClear(target){
+    target.style.background = '#eee';
+  }
+
+  function warningSet(target){
+    target.style.background = '#faaea0';
+    setTimeout(function(){warningClear(target)},500);
+    return false;
+  }
+
   export default {
     data(){
         return {
           rigister: true,
-          email: '',
-          password: null,
-          secondPassword: null,
-          passwordSingup: null,
-          emailSingup: '',
-          errorMessage: '',
-          userName: ''
+          message: ''
         }
     },
     methods: {
@@ -91,31 +96,60 @@
         this.rigister = this.rigister == true ? false : true;
       },
       singin(){
-        this.$store.dispatch('singin',{email: this.email, password: this.password});
-        if(this.$store.state.userModule.error != ''){
-          this.errorMessage = this.$store.state.userModule.error;
-        }
+          if(this.$refs.email.value == ''){
+            warningSet(this.$refs.email);
+          }
+          else if(this.$refs.password.value == ''){
+            warningSet(this.$refs.password);
+          }
+          else if (this.$store.state.userModule.error != '') {
+            this.$refs.alertMessage.style.display = 'block';
+            this.message = this.$store.state.userModule.error;
+            setTimeout(()=>{this.$refs.alertMessage.style.display = 'none'},2000);
+            this.$store.state.userModule.error = '';
+          }
+          else{
+            this.$store.dispatch('singin',{email: this.$refs.email.value, password: this.$refs.password.value});
+          }
       },
       singup(){
-        if(this.passwordSingup != this.secondPassword){
-          this.errorMessage = 'Пароли не совпадают';
-        }else{
-          this.$store.dispatch('singup',{email: this.emailSingup, password: this.passwordSingup, user: this.userName});
-          if(this.$store.state.userModule.error != ''){
-            this.errorMessage = this.$store.state.userModule.error;
-          }
+        if(this.$refs.passwordSingup.value != this.$refs.secondPassword.value){
+          this.$refs.alertMessage.style.display = 'block';
+          this.message = 'Пароли не совпадают';
+          setTimeout(()=>{this.$refs.alertMessage.style.display = 'none'},2000);
+          this.$store.state.userModule.error = '';
         }
+        else if(this.$refs.userName.value == ''){
+          warningSet(this.$refs.userName);
+        }
+        else if(this.$refs.emailSingup.value == ''){
+          warningSet(this.$refs.emailSingup);
+        }
+        else if(this.$refs.passwordSingup.value == ''){
+          warningSet(this.$refs.passwordSingup);
+        }
+        else if (this.$store.state.userModule.error != '') {
+          this.$refs.alertMessage.style.display = 'block';
+          this.message = this.$store.state.userModule.error;
+          setTimeout(()=>{this.$refs.alertMessage.style.display = 'none'},2000);
+          this.$store.state.userModule.error = '';
+        }
+        else{
+          this.$store.dispatch('singup',{email: this.$refs.emailSingup.value, password: this.$refs.passwordSingup.value, user: this.$refs.userName.value});
+        }
+
       },
       getUserInfo(){
-        this.$store.dispatch('getUserInfo');  
+        this.$store.dispatch('getUserInfo');
+      }
+    },
+    computed: {
+      errorMessage(){
+        this.$refs.alertMessage.style.display = 'block';
+        return this.message = this.$store.state.userModule.error == '' ? false : this.$store.state.userModule.error;
+        setTimeout(()=>{this.$refs.alertMessage.style.display = 'none'},2000);
       }
     }
-    // computed: {
-    //   error_message(){
-    //     return this.$store.state.userModule.error == '' ? false : this.$store.state.userModule.error;
-    //     // var warningTimer = setTimeout(clearWarning(this.$store.state.userModule.error,warningTimer),1000);
-    //   }
-    // }
   }
 </script>
 <style>
@@ -151,6 +185,7 @@
     border: none;
     padding-left: 15px;
     font-size: 18px;
+    transition: 0.3s;
   }
   .auth_container-inputs input[type='checkbox']{
     border: solid blue 1px;

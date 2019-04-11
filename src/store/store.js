@@ -50,38 +50,40 @@ export default new Vuex.Store({
     }
   },
   actions:{
-    loadTasks(context){
+    loadTasks(context,payload){
       let someArr = [];
       let daysArray = ['2019-02-20'];
-      // ref.on("value", function(snapshot) {
-      //      let data = snapshot.val();
-      //      let index = 0;
-      //      for (let value in snapshot.val()) {
-      //        if(someArr[index] != null){
-      //          if(someArr[index].task_id == data[value].task_id){
-      //            continue;
-      //          }
-      //        }else{
-      //          let baseData = {
-      //            name: data[value].name,
-      //            task_id: data[value].task_id,
-      //            complete: data[value].complete,
-      //            task_date: data[value].task_date,
-      //            start: data[value].start,
-      //            end: data[value].end,
-      //            duration: data[value].duration,
-      //            color: data[value].color,
-      //            priority: data[value].priority,
-      //            opacity: data[value].opacity,
-      //          }
-      //          daysArray.push(data[value].end);
-      //          someArr.push(baseData);
-      //        }
-      //        index++;
-      //      }
-      //    });
-      context.commit('loadTasks',someArr);
-      context.commit('daysCreate',daysArray);
+      ref.on("value", function(snapshot) {
+           let data = snapshot.val();
+           let index = 0;
+           for (let value in snapshot.val()) {
+             if(someArr[index] != null){
+               if(someArr[index].task_id == data[value].task_id){
+                 continue;
+               }
+             }else{
+               let baseData = {
+                 name: data[value].name,
+                 task_id: data[value].task_id,
+                 complete: data[value].complete,
+                 task_date: data[value].task_date,
+                 start: data[value].start,
+                 end: data[value].end,
+                 duration: data[value].duration,
+                 color: data[value].color,
+                 priority: data[value].priority,
+                 opacity: data[value].opacity,
+               }
+               daysArray.push(data[value].end);
+               someArr.push(baseData);
+             }
+             index++;
+           }
+         });
+      if(payload){
+        context.commit('loadTasks',someArr);
+        context.commit('daysCreate',daysArray);
+      }
     },
     remove(context, payload){
       context.commit('remove',payload.index);
@@ -103,7 +105,7 @@ export default new Vuex.Store({
   },
   mutations:{
     loadTasks(state,payload){
-        state.tasks = payload;
+      state.tasks = payload;
     },
     remove(context,index){
       context.tasks.splice(index,1);
@@ -138,10 +140,9 @@ export default new Vuex.Store({
             })
           });
         }
-        console.log(payload);
         context.tasks = tasksInDay;
-      // }
-    },
+        tasksInDay = []
+      },
     increment(context,payload){
       context.count = payload > context.count ? context.count = payload : context.count;
       context.count++
