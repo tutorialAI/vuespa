@@ -29,15 +29,8 @@ export default {
       pageLoaded: true
     }
   },
-  beforeCreate(){
+  created() {
     this.$store.dispatch('getUserInfo');
-    this.$store.dispatch('loadTasks',true);
-    console.log(this.$store.state.userModule.displayName);
-    console.log('beforeCreate->true');
-  },
-  beforeUpdate(){
-    this.$store.dispatch('loadTasks',false);
-    console.log('beforeUpdate->true');
   },
   methods: {
     newMethod() {

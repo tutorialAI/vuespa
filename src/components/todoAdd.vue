@@ -127,6 +127,7 @@ export default {
       this.priority = e.target.value;
     },
     addTask: function(e){
+      let user = this.$store.state.userModule.user.uid;
       let date = new Date();
       this.startDate = this.$refs.startDate.value == '' ? `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}` : this.$refs.startDate.value;
       this.lastDate =  this.$refs.lastDate.value == '' ? 'Не назначена' : this.$refs.lastDate.value;
@@ -144,7 +145,7 @@ export default {
       this.count ++;
       let task_key = firebase.database().ref().push().key;
       this.$store.state.tasks.push({task_id: task_key,name: this.name,complete: this.complete,duration: this.duration, start: this.startDate, end: this.lastDate, color: this.color});
-        firebase.database().ref(task_key).set({
+        firebase.database().ref(user+'/'+task_key).set({
           name: this.name,
           task_id: task_key,
           name: this.name,

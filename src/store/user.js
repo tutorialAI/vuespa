@@ -55,6 +55,9 @@ export default ({
         if (user) {
           context.commit('authStatus',true);
           context.commit('userInfo',user);
+          context.dispatch('loadTasks',user.uid);
+          console.log(user.uid);
+          console.log('user login');
         }else{
           console.log("does not logged");
         }

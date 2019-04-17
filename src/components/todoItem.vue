@@ -10,7 +10,7 @@
         <div class="task_options">
           <a href="#" v-on:click.prevent="done(index)"><i class="fa fa-check-circle-o" aria-hidden="true"></i></a>
           <a href="#" v-on:click.prevent="remove(index)"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
-          <a href="#" v-on:click.prevent="upTask()"><i class="fa fa-arrow-circle-o-up" aria-hidden="true"></i></a>
+          <!-- <a href="#" v-on:click.prevent="upTask()"><i class="fa fa-arrow-circle-o-up" aria-hidden="true"></i></a> -->
         </div>
     </div>
   </transition-group>
@@ -55,7 +55,6 @@ export default {
         opacity: opacity
       };
       this.$store.dispatch('complete',data);
-      console.log(this.$store.state.tasks);
     }
   }
 }

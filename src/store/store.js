@@ -14,7 +14,7 @@ var config = {
 };
 let app = firebase.initializeApp(config);
 let db = app.database();
-var ref = firebase.database().ref();
+var ref = firebase.database();
 Vue.use(Vuex);
 
 function getUnique(array){
@@ -39,7 +39,7 @@ export default new Vuex.Store({
     getDays(state){
       if(state.days.length != 0){
         let daysList = [];
-        ref.orderByChild('end').on('value',function(snapshot){
+        firebase.database().ref(state.userModule.user.uid).orderByChild('end').on('value',function(snapshot){
           snapshot.forEach(function(value){
             daysList.push(value.val().end);
           });
@@ -53,7 +53,8 @@ export default new Vuex.Store({
     loadTasks(context,payload){
       let someArr = [];
       let daysArray = ['2019-02-20'];
-      ref.on("value", function(snapshot) {
+      console.log(payload);
+      firebase.database().ref(payload).on("value", function(snapshot) {
            let data = snapshot.val();
            let index = 0;
            for (let value in snapshot.val()) {
@@ -80,23 +81,21 @@ export default new Vuex.Store({
              index++;
            }
          });
-      if(payload){
         context.commit('loadTasks',someArr);
         context.commit('daysCreate',daysArray);
-      }
     },
     remove(context, payload){
       context.commit('remove',payload.index);
-      db.ref(payload.task_id).remove().then(function() {
+      db.ref(context.state.userModule.user.uid+'/'+payload.task_id).remove().then(function() {
         console.log('File deleted successfully');
       }).catch(function(error) {
         console.log('Uh-oh, an error occurred!');
       });
     },
     complete(context,payload){
-      db.ref(payload.task_id+'/complete').set(payload.task_status);
-      db.ref(payload.task_id+'/color').set(payload.color);
-      db.ref(payload.task_id+'/opacity').set(payload.opacity);
+      db.ref(context.state.userModule.user.uid+'/'+payload.task_id+'/complete').set(payload.task_status);
+      db.ref(context.state.userModule.user.uid+'/'+payload.task_id+'/color').set(payload.color);
+      db.ref(context.state.userModule.user.uid+'/'+payload.task_id+'/opacity').set(payload.opacity);
       context.commit('complete',payload);
     },
     increment(context) {
@@ -118,7 +117,8 @@ export default new Vuex.Store({
       context.days = payload;
     },
     getDayTasks(context,payload){
-        var tasksInDay = [];
+        let tasksInDay = [];
+        let ref = firebase.database().ref(context.userModule.user.uid);
 
         if(payload == 'Показать все задачи'){
           ref.orderByChild("end").on("value", function(snapshot){

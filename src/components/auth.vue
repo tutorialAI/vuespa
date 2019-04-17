@@ -6,7 +6,6 @@
         {{ message }}
       </div>
     </transition>
-    <button v-on:click.prevent="getUserInfo()" class="btn btn-success">getInfo</button>
       <div class="auth_container-inner" v-show="rigister" key="singin">
           <div class="auth_container-title">
             Вход
@@ -138,9 +137,6 @@
           this.$store.dispatch('singup',{email: this.$refs.emailSingup.value, password: this.$refs.passwordSingup.value, user: this.$refs.userName.value});
         }
 
-      },
-      getUserInfo(){
-        this.$store.dispatch('getUserInfo');
       }
     },
     computed: {
